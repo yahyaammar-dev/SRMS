@@ -84,7 +84,44 @@ class ExcelController extends Controller
             }
             $firstItem = $data[0];
 
+
             foreach ($data as $item) {
+                if (is_string($item['LDN_20ft']) && preg_match('/^=.*$/', $item['LDN_20ft'])) {
+                    $expression = preg_replace('/[^0-9+\-*\/]/', '', $item['LDN_20ft']);
+                    $result = eval("return $expression;");
+                    $item['LDN_20ft'] =  $result;
+                }
+                if (is_string($item['LDN_40HC']) && preg_match('/^=.*$/', $item['LDN_40HC'])) {
+                    $expression = preg_replace('/[^0-9+\-*\/]/', '', $item['LDN_40HC']);
+                    $result = eval("return $expression;");
+                    $item['LDN_40HC'] =  $result;
+                }
+                if (is_string($item['LDN_EWRI_TEU']) && (strpos($item['LDN_EWRI_TEU'], 'Nill') !== false || strpos($item['LDN_EWRI_TEU'], 'INCL') !== false)) {
+                    $item['LDN_EWRI_TEU'] = null;
+                }
+                if (is_string($item['LDN_BAF_TEU']) && (strpos($item['LDN_EWRI_TEU'], 'Nill') !== false || strpos($item['LDN_EWRI_TEU'], 'INCL') !== false)) {
+                    $item['LDN_BAF_TEU'] = null;
+                }
+                if (is_string($item['DG_Sur_40FT']) && preg_match('/^=.*$/', $item['DG_Sur_40FT'])) {
+                    $expression = str_replace('O', '', $item['DG_Sur_40FT']); // remove 'O' from expression
+                    $expression = preg_replace('/[^0-9+\-*\/]/', '', $expression);
+                    $result = eval("return $expression;");
+                    $item['LDN_40HC'] =  $result;
+                }
+                if (is_string($item['REEFER_SUR'])) {
+                    $item['REEFER_SUR'] = preg_replace('/\/(U|PLG)?/', '', $item['REEFER_SUR']);
+                }
+                if (is_string($item['MT_40HC']) && preg_match('/^=.*$/', $item['MT_40HC'])) {
+                    $expression = str_replace('Z', '', $item['MT_40HC']); // remove 'O' from expression
+                    $expression = preg_replace('/[^0-9+\-*\/]/', '', $expression);
+                    $result = eval("return $expression;");
+                    $item['MT_40HC'] =  $result;
+                }
+                if (is_string($item['MT_BAF_TEU']) && (strpos($item['MT_BAF_TEU'], 'Nill') !== false || strpos($item['MT_BAF_TEU'], 'INCL') !== false)) {
+                    $item['MT_BAF_TEU'] = null;
+                }
+
+
                 $attribute = Attribute::create([
                     'LDN_20ft' => $item['LDN_20ft'],
                     'LDN_40HC' => $item['LDN_40HC'],
@@ -112,33 +149,34 @@ class ExcelController extends Controller
                     'REMARKS' => $item['REMARKS'],
                     'datetime' => '2023-05-02 07:13:25',
                 ]);
-                $port = Port::create([
-                    'name' => $item['pol'],
-                    'identifier' => '1',
-                ]);
+           
                 $service = Service::create([
                     'slot_op_name' => $item['slot_operator'],
+                    'service_name' => $item['service_name'],
                     'identifier' => '1',
                 ]);
-                
                 $shipmentDetail = Shipment::create([
                     'port_id' => '1',
                     'pod' => $item['pod'],
+                    'pol' => $item['pol'],
                     'terminal' => $item['terminal'],
-                    'volume_per_teu' => $item['terminal'],
+                    'volume_per_teu' => $item['volume_per_teu'],
                     'T_S_or_diect' => $item['TS_Or_Direct'],
                     'Slot_term' => $item['Slot_Term'],
-                    'operator_id' => '1',
-                    'service_id' => '1',
-                    'operator_id' => '1',
-                    'shipment_id' => '1',
-                    'slot_id' => '1'
+                    'service_id' => $service->id,
+                    'attribute_id' => $attribute->id
                 ]);
+              
                 
+                // extra
+                $port = Port::create([
+                    'name' => $item['pol'],
+                    'identifier' => $service->id,
+                ]);
                 $slotDetail = SlotDetail::create([
-                    'attribute_id' => '1',
-                    'value' => '1',
-                    'shipment_id' => '1',
+                    'attribute_id' => $service->id,
+                    'value' => $service->id,
+                    'shipment_id' => $service->id,
                 ]);
             }
             dd($attribute);
