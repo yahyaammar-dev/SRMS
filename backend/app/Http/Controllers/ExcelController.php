@@ -353,11 +353,20 @@ class ExcelController extends Controller
 
 
     public function editData(Request $req) {
-        return $req->input();
-
-        
-        return response()->json(['message'=>'Data updated Successfully']);
+        $shipment = Shipment::find($req->id);
+        if (!$shipment) {
+            return response()->json(['message' => 'Shipment not found'], 404);
+        }
+        $shipment->pod = $req->input('pod');
+        $shipment->pol = $req->input('pol');
+        $shipment->terminal = $req->input('terminal');
+        $shipment->terminal = $req->input('volume_per_teu');
+        $shipment->terminal = $req->input('T_S_or_diect');
+        $shipment->terminal = $req->input('Slot_term');
+        $shipment->save();
+        $service = Service::find($shipment->service_id);
+        $attribute = Attribute::find($shipment->attribute_id);
+        $service->service_name = $req->input('Slot_term');;
+        return response()->json(['message' => 'Shipment Updated'], 200);
     }
-
-
 }
