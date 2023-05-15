@@ -25,3 +25,10 @@ Route::get('/export', [ExcelController::class, 'exportData'])->name('export');
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 
+Route::get('/getAllData', [ExcelController::class, 'getData']);
+
+Route::post('/addData', [ExcelController::class, 'addData']);
+Route::post('/deleteData', [ExcelController::class, 'deleteData']);
+Route::get('/getSingleItemData/{id}', [ExcelController::class, 'getSingleItemData']);
+Route::post('/editData', [ExcelController::class, 'editData']);
+

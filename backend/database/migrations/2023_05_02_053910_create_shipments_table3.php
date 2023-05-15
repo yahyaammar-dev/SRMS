@@ -2,7 +2,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateShipmentsTable2 extends Migration
+class CreateShipmentsTable3 extends Migration
 {
     /**
      * Run the migrations.
@@ -25,8 +25,7 @@ class CreateShipmentsTable2 extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->softDeletes();
-            $table->unsignedBigInteger('shipment_id');
-            $table->unsignedBigInteger('slot_id');
+            $table->unsignedBigInteger('attribute_id');
         });
     }
 

@@ -149,7 +149,7 @@ class ExcelController extends Controller
                     'REMARKS' => $item['REMARKS'],
                     'datetime' => '2023-05-02 07:13:25',
                 ]);
-           
+
                 $service = Service::create([
                     'slot_op_name' => $item['slot_operator'],
                     'service_name' => $item['service_name'],
@@ -166,8 +166,8 @@ class ExcelController extends Controller
                     'service_id' => $service->id,
                     'attribute_id' => $attribute->id
                 ]);
-              
-                
+
+
                 // extra
                 $port = Port::create([
                     'name' => $item['pol'],
@@ -179,7 +179,6 @@ class ExcelController extends Controller
                     'shipment_id' => $service->id,
                 ]);
             }
-            dd($attribute);
             return;
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
@@ -229,4 +228,136 @@ class ExcelController extends Controller
         }
         $this->ExportExcel($data_array);
     }
+
+
+    public function getData()
+    {
+        $shipments = Shipment::all();
+        $data = [];
+        foreach ($shipments as $shipment) {
+            $service = Service::find($shipment->service_id);
+            $attribute = Attribute::find($shipment->attribute_id);
+
+            $shipmentData = [
+                'shipment_id' => $shipment->id,
+                'pod' => $shipment->pod,
+                'pol' => $shipment->pol,
+                'terminal' => $shipment->terminal,
+                'volume_per_teu' => $shipment->volume_per_teu,
+                'T_S_or_diect' => $shipment->T_S_or_diect,
+                'Slot_term' => $shipment->Slot_term,
+                'service' => $service,
+                'attribute' => $attribute
+            ];
+
+            $data[] = $shipmentData;
+        }
+
+        return response()->json($data);
+    }
+
+
+    public function addData(Request $request)
+    {
+
+        $attribute = Attribute::create([
+            'LDN_20ft' => $request->input('LDN_20ft'),
+            'LDN_40HC' => $request->input('LDN_40HC'),
+            'LDN_EWRI_TEU' => $request->input('LDN_EWRI_TEU'),
+            'LDN_BAF_TEU' => $request->input('LDN_BAF_TEU'),
+            'ECR_PER_TEU' => $request->input('ECR_PER_TEU'),
+            'Flexi_Sur_TEU' => $request->input('Flexi_Sur_TEU'),
+            'DG_Sur_20FT' => $request->input('DG_Sur_20FT'),
+            'DG_Sur_40FT' => $request->input('DG_Sur_40FT'),
+            'DG_CLASS_1_PER_TEU' => $request->input('DG_CLASS_1_PER_TEU'),
+            'REEFER_SUR' => $request->input('REEFER_SUR'),
+            'DTHC_NON_HAZ_20FT' => $request->input('DTHC_NON_HAZ_20FT'),
+            'DTHC_HAZ_20FT' => $request->input('DTHC_HAZ_20FT'),
+            'DTHC_NON_HAZ_40FT' => $request->input('DTHC_NON_HAZ_40FT'),
+            'TANK_S_CHARGE_TUE' => $request->input('TANK_SCHARGE_TUE'),
+            'GRI_TUE' => $request->input('GRI_TUE'),
+            'ROB_FEE_TUE' => $request->input('ROB_FEE_TUE'),
+            'MT_20ft' => $request->input('MT_20ft'),
+            'MT_40HC' => $request->input('MT_40HC'),
+            'MT_EWRI_TEU' => $request->input('MT_EWRI_TEU'),
+            'MT_BAF_TEU' => $request->input('MT_BAF_TEU'),
+            'MT_TANK_S_CHARGE' => $request->input('MT_TANK_SCHARGE'),
+            'EFFECTIVE_DATE' => $request->input('EFFECTIVE_DATE'),
+            'VALIDITY' => $request->input('VALIDTY'),
+            'REMARKS' => $request->input('REMARKS'),
+            'datetime' => '2023-05-02 07:13:25',
+        ]);
+
+        $service = Service::create([
+            'slot_op_name' => $request->input('slot_operator'),
+            'service_name' => $request->input('service_name'),
+            'identifier' => '1',
+        ]);
+        $shipmentDetail = Shipment::create([
+            'port_id' => '1',
+            'pod' => $request->input('pod'),
+            'pol' =>  $request->input('pol'),
+            'terminal' => $request->input('terminal'),
+            'volume_per_teu' => $request->input('volume_per_teu'),
+            'T_S_or_diect' => $request->input('TS_Or_Direct'),
+            'Slot_term' => $request->input('Slot_Term'),
+            'service_id' => $service->id,
+            'attribute_id' => $attribute->id
+        ]);
+        return response()->json(['message' => 'Data added successfully']);
+    }
+
+
+    public function deleteData(Request $request)
+    {
+        $shipment = Shipment::find($request->input('data'));
+        if (!$shipment) {
+            return response()->json(['message' => 'Shipment not found'], 200);
+        }
+        $service = Service::find($shipment->service_id);
+        $attribute = Attribute::find($shipment->attribute_id);
+
+        if ($service) {
+            $service->delete();
+        }
+        if ($attribute) {
+            $attribute->delete();
+        }
+        $shipment->delete();
+        return response()->json(['message' => 'Shipment and associated records deleted successfully']);
+    }
+
+    public function getSingleItemData($id)
+    {
+        $shipment = Shipment::find($id);
+        $data = [];
+        $service = Service::find($shipment->service_id);
+        $attribute = Attribute::find($shipment->attribute_id);
+
+        $shipmentData = [
+            'shipment_id' => $shipment->id,
+            'pod' => $shipment->pod,
+            'pol' => $shipment->pol,
+            'terminal' => $shipment->terminal,
+            'volume_per_teu' => $shipment->volume_per_teu,
+            'T_S_or_diect' => $shipment->T_S_or_diect,
+            'Slot_term' => $shipment->Slot_term,
+            'service' => $service,
+            'attribute' => $attribute
+        ];
+
+        $data = $shipmentData;
+
+        return response()->json($data);
+    }
+
+
+    public function editData(Request $req) {
+        return $req->input();
+
+        
+        return response()->json(['message'=>'Data updated Successfully']);
+    }
+
+
 }

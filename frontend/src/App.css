@@ -36,3 +36,122 @@
     transform: rotate(360deg);
   }
 }
+
+
+/** Signup Page **/
+.background-radial-gradient {
+  background-color: hsl(218, 41%, 15%);
+  background-image: radial-gradient(650px circle at 0% 0%,
+      hsl(218, 41%, 35%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+      hsl(218, 41%, 45%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%);
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.searchtopbar p{
+  margin-bottom: 0;
+  font-size: 0.7rem;
+}
+
+.searchtopbar .first{
+  margin-right: 12rem;
+}
+
+.searchtopbar .second{
+  margin-right: 10rem;
+}
+
+.searchtopbar .third{
+  margin-right: 10rem;
+}
+
+
+.abcc{
+  justify-content: center;
+}
+
+.deletebtn{
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  display: block;
+}
+
+.flexer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.flexer p{
+  margin-bottom: 0;
+}
+
+
+.btn2 {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  background: #ff8282;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+}
+
+.btn2:hover {
+  background: #ff5252;
+  text-decoration: none;
+}
+
+.righter{
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.myhead {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}

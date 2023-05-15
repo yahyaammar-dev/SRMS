@@ -1,3 +1,8 @@
+* {
+  font-family: 'Gotham', sans-serif !important;
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +15,399 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.navbar {
+  margin: 0 auto;
+}
+
+.navbar .logo {
+  width: 6%;
+}
+
+.menu {
+  list-style-type: none;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0 !important;
+}
+
+.menu li {
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.menu li button {
+  display: flex;
+  color: white;
+  font-size: 13px;
+}
+
+.searchBar {
+  background-color: blue;
+}
+
+
+/* Style the container */
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style the icon */
+.icon {
+  padding: 10px;
+  color: #ccc;
+}
+
+/* Style the input field */
+.input-field {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #555;
+  background-color: transparent;
+}
+
+/* On focus, add a border bottom */
+.input-field:focus {
+  border-bottom: 2px solid #0088cc;
+}
+
+.innerSearchBar {
+  display: flex;
+}
+
+.mainContainer {
+  width: 80%;
+  margin: auto;
+}
+
+.mybtn {
+  background: linear-gradient(to right, #0281c5, #1f225b);
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  padding: 0.2rem 1.2rem;
+}
+
+.searchBar {
+  background-color: aliceblue;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.innerSearchBar {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.searchtopbar {
+  display: flex;
+}
+
+.searchtopbar p {
+  color: #a2a2a2;
+  font-size: 14px;
+}
+
+.seabutton {
+  background: linear-gradient(to right, #0281c5, #1f225b);
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.landbutton {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+
+.my-div {
+  margin: 0 1rem;
+  position: relative;
+  width: 2px;
+  /* Width of the line */
+  background-color: #ccc;
+  /* Color of the line */
+}
+
+.my-div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  /* Width of the line */
+  background-color: #ccc;
+  /* Color of the line */
+}
+
+.input-container img {
+  padding-right: 0.5rem;
+}
+
+.serachImage {
+  border-radius: 0.2rem;
+}
+
+.innerSearchBar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.mainData {
+  display: flex;
+}
+
+.mainData .filters {
+  width: 24%;
+}
+
+.mainData .listing {
+  width: 76%;
+  margin: 1rem;
+}
+
+.innerFilterh1 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.innerFilter {
+  padding: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin: 1rem 0;
+}
+
+.innerFilter .item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.innerFilter p {
+  margin: 0;
+}
+
+.firstItem {
+  background-color: aliceblue;
+  border-radius: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+}
+
+.firstItem button {
+  border: none;
+  outline: none;
+  width: 50%;
+  border-radius: 1rem;
+  background-color: white;
+  color: #ccc;
+  padding: 0.5rem 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.listing .item{
+  display: flex;
+  justify-content: space-between;
+}
+
+.listing .itemFirst{
+  width: 60%;
+}
+
+.complogocontainer{
+  display: flex;
+  align-items: center;
+}
+
+
+.complogocontainer h1{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+.sourcedest{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.outlined-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* make the element a circle by setting the border-radius to half of the width and height */
+  border: 2px solid #cfcfcf; /* add a 2px solid black border to create the outline */
+}
+
+.hori{
+  display: flex;
+}
+
+
+
+
+.hori {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between; /* add space between the circles */
+  align-items: center; /* vertically center the circles and lines */
+}
+
+
+
+.my-div2 hr {
+  border: none;
+  height: 1px;
+  background-color: #000;
+  margin: 0;
+  width: 100px;
+}
+
+.shipimage{
+  margin: auto;
+  display: flex;
+  padding-bottom: 0.5rem;
+}
+
+.my-div2 p {
+  margin-bottom: 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.dd22{
+  margin-top: -2.5rem;
+}
+
+.validity{
+  display: flex;
+  width: 100%;
+}
+
+.expiry{
+  display: flex;
+  width: 100%;
+}
+
+.gradBtn{
+  border: none;
+  outline: none;
+  background: linear-gradient(to right, #0281c5, #1f225b);
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.first .validity .title{
+    font-weight: bold;
+}
+
+
+.first .expiry .title{
+  font-weight: bold;
+}
+
+.item .itemSecond {
+  display: flex;
+  gap: 4rem;
+} 
+
+.itemSecond .second{
+  background-color: aliceblue;
+  padding: 0.5rem
+}
+
+.item{
+  margin: 1rem 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 1rem;
+}
+
+.subItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subItem .first{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.subItem .first p{
+ margin: 0;
+}
+
+.subItem .second{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subItem .second p{
+  margin-bottom: 0;
+}
+
+.subItem{
+  margin-bottom: 0.5rem;
+}
+
+.dropsub{
+  cursor: pointer;
+}
+
+.flexerr{
+  display: flex;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.alertContainer{
+  width: 100%;
+  margin: auto;
+  position: absolute;
+  z-index: 99;
+  
+}
+
+.alertContainer .alert{
+  padding: 1rem;
+  border-radius: 0.2rem;
+}
+
+.alert{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.select-field{
+  border: none;
+  outline: none;
+}
+
+.serachImage{
+  cursor: pointer;
+}
+
+.btn2{
+  padding: 0.5rem;
 }

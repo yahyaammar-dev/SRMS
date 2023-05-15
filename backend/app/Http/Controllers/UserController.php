@@ -12,8 +12,9 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        return $request;
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('authToken')->accessToken;
@@ -25,6 +26,7 @@ class UserController extends Controller
 
     public function signup(Request $request)
     {
+        return $request;
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
@@ -33,6 +35,8 @@ class UserController extends Controller
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
+
+        return $validatedData;
 
         $user = User::create($validatedData);
 
