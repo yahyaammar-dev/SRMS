@@ -347,7 +347,6 @@ class ExcelController extends Controller
         ];
 
         $data = $shipmentData;
-
         return response()->json($data);
     }
 

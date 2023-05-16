@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
     const navigate = useNavigate()
+    useEffect(() => {
+        const storedUser = JSON.parse(window.localStorage.getItem('user'));
+        if(storedUser){
+            navigate('/search')
+        }
+    }, [])
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -11,6 +17,7 @@ const Signup = () => {
         axios
         .post('http://localhost:8000/signup', formObject)
         .then((response) => {
+            window.localStorage.setItem('user', JSON.stringify(response.data.user));
             navigate('/Search')
         })
         .catch((error) => {
@@ -44,18 +51,13 @@ const Signup = () => {
                             <div class="card-body px-4 py-5 px-md-5">
                                 <form onSubmit={handleSubmit}>
                                     <div class="row">
-                                        <div class="col-md-6 mb-4">
+                                        <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <label class="form-label" for="form3Example1">First name</label>
-                                                <input type="text" id="form3Example1" name="firstName" class="form-control" />
+                                                <label class="form-label" for="form3Example1">Full Name</label>
+                                                <input type="text" id="form3Example1" name="name" class="form-control" />
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <label class="form-label" for="form3Example2">Last name</label>
-                                                <input type="text" id="form3Example2" name="lastName" class="form-control" />
-                                            </div>
-                                        </div>
+                                      
                                     </div>
 
                                     <div class="form-outline mb-4">
@@ -71,7 +73,7 @@ const Signup = () => {
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form3Example4">Role</label>
-                                        <select class="form-select" name="role" aria-label="Default select example">
+                                        <select class="form-select" name="roles" aria-label="Default select example">
                                             <option selected>Role</option>
                                             <option value="Editer">Editor</option>
                                             <option value="Viewer">Viewer</option>
@@ -81,7 +83,7 @@ const Signup = () => {
 
 
                                     <div class="form-check d-flex justify-content-start mb-4">
-                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                                        <input class="form-check-input me-2" type="checkbox"  id="form2Example33"  />
                                         <label class="form-check-label" for="form2Example33">
                                             Agree to Terms and Conditions
                                         </label>

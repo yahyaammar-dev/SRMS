@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate()
+    useEffect(() => {
+        const storedUser = JSON.parse(window.localStorage.getItem('user'));
+        if(storedUser){
+            navigate('search')
+        }
+    }, [])
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -13,6 +19,13 @@ const Login = () => {
         axios
             .post('http://localhost:8000/login', formObject)
             .then((response) => {
+
+                window.localStorage.setItem('user', JSON.stringify(response.data.user));
+
+                // Retrieving the object and parsing it back to an object
+                const storedUser = JSON.parse(window.localStorage.getItem('user'));
+                console.log(storedUser);
+
                 navigate("/search");
             })
             .catch((error) => {
@@ -67,7 +80,7 @@ const Login = () => {
                                 </form>
 
 
-                                    <p>Don't have an account? <Link to='/register'>Register Now</Link></p>
+                                <p>Don't have an account? <Link to='/register'>Register Now</Link></p>
 
                             </div>
                         </div>

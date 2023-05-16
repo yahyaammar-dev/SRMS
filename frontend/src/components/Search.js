@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
     const [subItem, setSubItem] = useState()
+    const [user, setUser] = useState()
+    const [subItemOpen, setSubItemOpen] = useState([]);
     const [data, setData] = useState()
     const [result, setResult] = useState()
     const [loader, setLoader] = useState(true)
@@ -13,6 +15,7 @@ const Search = () => {
     const [from, setFrom] = useState()
     const [to, setTo] = useState()
     const navigate = useNavigate()
+    const [slotTerm, setSlotTerm] = useState()
     const [month, setMonth] = useState('');
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const monthMap = {
@@ -29,8 +32,11 @@ const Search = () => {
         "November": "11",
         "December": "12"
     };
-
-    
+    console.log(data)
+    const handleLogout = () => {
+        window.localStorage.removeItem('user')
+        navigate('/')
+    }
     const [slotOperatorName, setSlotOperatorName] = useState()
     const [terminal, setTerminal] = useState()
     function getFormattedDate(monthName) {
@@ -56,7 +62,16 @@ const Search = () => {
     };
     useEffect(() => {
         fetchData();
+        getUser()
     }, []);
+
+
+    const getUser = () => {
+        const storedUser = JSON.parse(window.localStorage.getItem('user'));
+        setUser(storedUser)
+    }
+
+
 
     const handleSerach = () => {
         setLoader(true);
@@ -76,7 +91,6 @@ const Search = () => {
             }
             return true;
         });
-        console.log(filteredData)
         setData(filteredData)
         setLoader(false)
     }
@@ -109,6 +123,10 @@ const Search = () => {
         setLoader(true)
         setTerminal(event.target.value);
     };
+    const handleRadioChange4 = (event) => {
+        setLoader(true)
+        setSlotTerm(event.target.value);
+    };
 
     const handleClick = event => {
         if (isActive2) {
@@ -122,7 +140,6 @@ const Search = () => {
         }
         setIsActive2(current => !current);
     };
-
 
     useEffect(() => {
         if (containerType) {
@@ -149,7 +166,23 @@ const Search = () => {
         }
     }, [terminal])
 
-    console.log(data)
+    useEffect(() => {
+        if (slotTerm) {
+            console.log(slotTerm)
+            const updatedData = result?.filter(item => item.Slot_term === slotTerm);
+            setData(updatedData);
+            setLoader(false)
+        }
+    }, [slotTerm])
+
+    const handleSubItemToggle = (index) => {
+        console.log(index)
+        const newSubItemOpen = [...subItemOpen];
+        newSubItemOpen[index] = !newSubItemOpen[index];
+        setSubItemOpen(newSubItemOpen);
+    };
+
+    console.log(user)
 
     return (
         <div className='mainContainer'>
@@ -157,10 +190,20 @@ const Search = () => {
                 <img src='/rsl-logo.png' className='logo' />
                 <div>
                     <ul className='menu'>
+                        {
+                            user?.roles == "Editer" && <>
+                                <li>
+                                    <button className='mybtn' onClick={() => {
+                                        navigate('/addData')
+                                    }}>ADD NEW SLOT</button>
+                                </li>
+                            </>
+                        }
+
                         <li>
                             <button className='mybtn' onClick={() => {
-                                navigate('/addData')
-                            }}>ADD NEW SLOT</button>
+                                handleLogout()
+                            }}>Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -420,10 +463,46 @@ const Search = () => {
                                 <input type='radio' name='term' value='RSGT' onChange={handleRadioChange3} />
                                 <p>RSGT</p>
                             </div>
-                           
+
                         </div>
                     </div>
-
+                    <div className='innerFilter '>
+                        <h1 className='innerFilterh1'>Slot Term</h1>
+                        <div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='FIFO' onChange={handleRadioChange4} />
+                                <p>FIFO</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='CYFO' onChange={handleRadioChange4} />
+                                <p>CYFO</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='CYFO DG' onChange={handleRadioChange4} />
+                                <p>CYFO DG</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='CYCY' onChange={handleRadioChange4} />
+                                <p>CYCY</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='THRU' onChange={handleRadioChange4} />
+                                <p>THRU</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='FIHK' onChange={handleRadioChange4} />
+                                <p>FIHK</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='FITK' onChange={handleRadioChange4} />
+                                <p>FITK</p>
+                            </div>
+                            <div className='item' style={{ boxShadow: 'none', margin: '0', padding: 0 }}>
+                                <input type='radio' name='containerType' value='FITK/ GEN' onChange={handleRadioChange4} />
+                                <p>FITK/ GEN</p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div className='listing'>
@@ -439,7 +518,7 @@ const Search = () => {
                                 </div>
                             </div>
                             :
-                            data?.map((item) => {
+                            data?.map((item, index) => {
                                 return <>
                                     <div className='outerContainer'>
                                         <div className='item'>
@@ -485,21 +564,24 @@ const Search = () => {
                                                         <p className='date'>{item.attribute.datetime}</p>
                                                     </div>
                                                     <button className='gradBtn'>{(Number(item.attribute.LDN_20ft))}</button>
-                                                    <div className='flexer'>
+                                                    {
+                                                        user?.roles == "Editer" && <>
+                                                            <div className='flexer'>
+                                                                <button className='deletebtn btn2' onClick={() => { navigate(`editData/${item.shipment_id}`) }} style={{ background: '#bdffcc', color: 'black' }}>Edit</button>
+                                                                <button className='deletebtn btn2' onClick={() => handleDelete(item)}>Delete</button>
+                                                            </div>
+                                                        </>
+                                                    }
 
-                                                        <button className='deletebtn btn2' onClick={() => { navigate(`editData/${item.shipment_id}`) }} style={{ background: '#bdffcc', color: 'black' }}>Edit</button>
 
-
-                                                        <button className='deletebtn btn2' onClick={() => handleDelete(item)}>Delete</button>
-                                                    </div>
                                                 </div>
-                                                <div className='second dropsub' onClick={() => setSubItem(!subItem)}>
+                                                <div className='second dropsub' onClick={() => handleSubItemToggle(index)}>
                                                     <img src='/drop.png' />
                                                 </div>
                                             </div>
                                         </div>
                                         {
-                                            subItem && (
+                                            subItemOpen[index] && (
                                                 <div className='itemSubItem'>
                                                     <div className='subItem'>
                                                         <div className='first'>
