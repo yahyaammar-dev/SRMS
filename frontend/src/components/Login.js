@@ -44,10 +44,7 @@ const Login = () => {
                             <span style={{ color: 'hsl(218, 81%, 75%)' }}>for your business</span>
                         </h1>
                         <p class="mb-4 opacity-70" style={{ color: 'hsl(218, 81%, 85%)' }}>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                            Temporibus, expedita iusto veniam atque, magni tempora mollitia
-                            dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-                            ab ipsum nisi dolorem modi. Quos?
+                        SRMS is a leading shipping company dedicated to providing reliable and efficient shipping solutions to businesses and individuals worldwide. With our extensive network and advanced logistics capabilities, we offer a comprehensive range of shipping services tailored to meet the unique needs of our customers.
                         </p>
                     </div>
 
