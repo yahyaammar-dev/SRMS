@@ -15,7 +15,7 @@ const Signup = () => {
         const formData = new FormData(e.target);
         const formObject = Object.fromEntries(formData.entries());
         axios
-        .post('http://localhost:8000/signup', formObject)
+        .post('http://20.236.136.145:8000/signup', formObject)
         .then((response) => {
             window.localStorage.setItem('user', JSON.stringify(response.data.user));
             navigate('/Search')

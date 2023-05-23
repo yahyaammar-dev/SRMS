@@ -11,7 +11,7 @@ const AddData = () => {
         const formData = new FormData(e.target);
         const formObject = Object.fromEntries(formData.entries());
         axios
-            .post('http://localhost:8000/addData', formObject)
+            .post('http://20.236.136.145:8000/addData', formObject)
             .then((response) => {
                 alert('Data added Successfully')
                 navigate("/search");
