@@ -17,7 +17,7 @@ const Login = () => {
         const formData = new FormData(e.target);
         const formObject = Object.fromEntries(formData.entries());
         axios
-            .post('http://20.236.136.145:3001/login', formObject)
+            .post('http://20.236.136.145/login', formObject)
             .then((response) => {
 
                 window.localStorage.setItem('user', JSON.stringify(response.data.user));
