@@ -52,7 +52,7 @@ const Search = () => {
     };
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://20.236.136.145//getAllData');
+            const response = await axios.get('http://20.236.136.145/getAllData');
             setData(response.data);
             setResult(response.data);
             setLoader(false)
@@ -97,7 +97,7 @@ const Search = () => {
 
     const handleDelete = async (item) => {
         try {
-            const response = await axios.post('http://20.236.136.145//deleteData', {
+            const response = await axios.post('http://20.236.136.145/deleteData', {
                 data: item.shipment_id
             });
             console.log(response)
