@@ -51,7 +51,7 @@ const EditData = () => {
             pol, pod, service_name, terminal, volume_per_teu
         }
         axios
-            .post('http://20.236.136.145:8000/editData', data)
+            .post('http://20.236.136.145:3001/editData', data)
             .then((response) => {
                 console.log(response)
                 alert('Data updated Successfully')
@@ -65,7 +65,7 @@ const EditData = () => {
 
     const getSingleItemData = async () => {
         try {
-            const response = await axios.get(`http://20.236.136.145:8000/getSingleItemData/${id}`);
+            const response = await axios.get(`http://20.236.136.145:3001/getSingleItemData/${id}`);
             setItem(response.data)
             setSlot_term(response.data.Slot_term)
             setT_S_or_diect(response.data.T_S_or_diect) 
