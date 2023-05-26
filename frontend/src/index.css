@@ -22,7 +22,7 @@ code {
 }
 
 .navbar .logo {
-  width: 6%;
+  width: 20%;
 }
 
 .menu {
@@ -136,22 +136,9 @@ code {
   margin: 0 1rem;
   position: relative;
   width: 2px;
-  /* Width of the line */
-  background-color: #ccc;
-  /* Color of the line */
 }
 
-.my-div::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 2px;
-  /* Width of the line */
-  background-color: #ccc;
-  /* Color of the line */
-}
+
 
 .input-container img {
   padding-right: 0.5rem;
@@ -163,7 +150,6 @@ code {
 
 .innerSearchBar {
   display: flex;
-  justify-content: space-around;
 }
 
 .mainData {
@@ -410,4 +396,22 @@ code {
 
 .btn2{
   padding: 0.5rem;
+}
+
+
+.no-border{
+  border: none;
+  outline: none;
+}
+
+.width-10{
+  width: 10%;
+}
+
+.landbutton{
+  color: #cccccc;
+}
+
+.greyish{
+  color: #cccccc;
 }

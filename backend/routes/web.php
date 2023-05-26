@@ -32,3 +32,8 @@ Route::post('/deleteData', [ExcelController::class, 'deleteData']);
 Route::get('/getSingleItemData/{id}', [ExcelController::class, 'getSingleItemData']);
 Route::post('/editData', [ExcelController::class, 'editData']);
 
+Route::get('/welcome', function() {
+    return response()->json([
+        'message' => 'welcome man'
+    ], 200);
+});

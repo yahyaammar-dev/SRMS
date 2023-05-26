@@ -37,22 +37,25 @@
   }
 }
 
-
 /** Signup Page **/
 .background-radial-gradient {
   background-color: hsl(218, 41%, 15%);
-  background-image: radial-gradient(650px circle at 0% 0%,
+  background-image: radial-gradient(
+      650px circle at 0% 0%,
       hsl(218, 41%, 35%) 15%,
       hsl(218, 41%, 30%) 35%,
       hsl(218, 41%, 20%) 75%,
       hsl(218, 41%, 19%) 80%,
-      transparent 100%),
-    radial-gradient(1250px circle at 100% 100%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1250px circle at 100% 100%,
       hsl(218, 41%, 45%) 15%,
       hsl(218, 41%, 30%) 35%,
       hsl(218, 41%, 20%) 75%,
       hsl(218, 41%, 19%) 80%,
-      transparent 100%);
+      transparent 100%
+    );
 }
 
 #radius-shape-1 {
@@ -79,46 +82,32 @@
   backdrop-filter: saturate(200%) blur(25px);
 }
 
-.searchtopbar p{
+.searchtopbar p {
   margin-bottom: 0;
   font-size: 0.7rem;
 }
 
-.searchtopbar .first{
-  margin-right: 12rem;
-}
-
-.searchtopbar .second{
-  margin-right: 10rem;
-}
-
-.searchtopbar .third{
-  margin-right: 10rem;
-}
-
-
-.abcc{
+.abcc {
   justify-content: center;
 }
 
-.deletebtn{
+.deletebtn {
   border: none;
   outline: none;
   padding: 0.5rem;
   display: block;
 }
 
-.flexer{
+.flexer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
 }
 
-.flexer p{
+.flexer p {
   margin-bottom: 0;
 }
-
 
 .btn2 {
   -webkit-border-radius: 28;
@@ -137,11 +126,10 @@
   text-decoration: none;
 }
 
-.righter{
+.righter {
   display: flex;
   justify-content: flex-end;
 }
-
 
 .myhead {
   position: relative;
@@ -156,7 +144,6 @@
   transition: all 0.4s ease 0s;
 }
 
-
 .myhead {
   position: relative;
   padding: 0;
@@ -170,4 +157,79 @@
   font-weight: bold;
   padding-left: 3rem;
   padding-top: 2rem;
+}
+
+.innerSearchBar .first {
+  width: 7%;
+}
+
+.innerSearchBar .second {
+  border-left: 1px solid #e1e1e1;
+}
+
+.innerSearchBar .third {
+  width: 7%;
+}
+
+.innerSearchBar .fourth {
+  border-left: 1px solid #e1e1e1;
+}
+
+.innerSearchBar .fifth {
+  width: 25%;
+}
+
+.innerSearchBar .sixth {
+  border-left: 1px solid #e1e1e1;
+}
+
+.innerSearchBar .seventh {
+  width: 25%;
+}
+
+.innerSearchBar .eigth {
+  border-left: 1px solid #e1e1e1;
+}
+
+.innerSearchBar .nine {
+  width: 20%;
+}
+
+.innerSearchBar .ten {
+  width: 10%;
+  display: flex;
+  justify-content: end;
+}
+
+.searchtopbar .first {
+  width: 18%;
+}
+
+.searchtopbar .second {
+  width: 26.3%;
+}
+
+.searchtopbar .third {
+  width: 26%;
+}
+
+.searchtopbar .fourth {
+  width: 18%;
+}
+
+.innerSearchBar .first .seabutton {
+  width: 100%;
+}
+
+.itemSubItem {
+  margin-top: -1rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+
+.menu li .mybtn{
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
 }
