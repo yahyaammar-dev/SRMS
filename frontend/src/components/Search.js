@@ -17,6 +17,7 @@ const Search = () => {
   const navigate = useNavigate();
   const [slotTerm, setSlotTerm] = useState();
   const [month, setMonth] = useState("");
+  const [count, setCount] = useState(10)
   const months = [
     "January",
     "February",
@@ -45,7 +46,6 @@ const Search = () => {
     November: "11",
     December: "12",
   };
-  console.log(data);
   const handleLogout = () => {
     window.localStorage.removeItem("user");
     navigate("/");
@@ -110,7 +110,6 @@ const Search = () => {
       const response = await axios.post("http://20.236.136.145/deleteData", {
         data: item.shipment_id,
       });
-      console.log(response);
       alert("Data Delte Successfully");
       setLoader(true);
       fetchData();
@@ -194,7 +193,6 @@ const Search = () => {
     setSubItemOpen(newSubItemOpen);
   };
 
-  console.log(user);
 
   return (
     <div className="mainContainer">
@@ -754,7 +752,8 @@ const Search = () => {
               </div>
             </div>
           ) : (
-            data?.map((item, index) => {
+            
+            data?.slice(count-10, count).map((item, index) => {
               return (
                 <>
                   <div className="outerContainer">
@@ -892,7 +891,21 @@ const Search = () => {
                 </>
               );
             })
+          
           )}
+           <div className="pagination__container">
+            <button className="btn btn-primary" onClick={()=>{
+                  setCount(count-10)
+              }}>
+              Pervious
+            </button>
+            <button className="btn btn-primary" onClick={()=>{
+                setCount(count+10)
+            }
+            }>
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
