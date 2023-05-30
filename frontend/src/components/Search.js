@@ -842,7 +842,7 @@ const Search = () => {
                       <div className="itemSubItem">
                         <div className="subItem">
                           <div className="first">
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled />
                             <div>
                               <img src="/3.png" />
                             </div>
@@ -857,7 +857,7 @@ const Search = () => {
                         </div>
                         <div className="subItem">
                           <div className="first">
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled />
                             <div>
                               <img src="/1.png" />
                             </div>
@@ -872,7 +872,7 @@ const Search = () => {
                         </div>
                         <div className="subItem">
                           <div className="first">
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled />
                             <div>
                               <img src="/2.png" />
                             </div>
