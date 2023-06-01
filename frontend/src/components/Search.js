@@ -150,6 +150,64 @@ const Search = () => {
     setIsActive2((current) => !current);
   };
 
+  const getCompanyLogo = (value) => {
+    if(value == 'BSS FEEDERS'){
+      return "/bssfeeder.jpeg";
+    }else if(value == 'SWAN'){
+      return "/swan.png";
+    }else if(value == 'Vira See'){
+      return "/vira.png";
+    }else if(value == 'CORPORATE SHIPPING'){
+      return "/vira.png";
+    }else if(value == 'FEEDER NAUTS'){
+      return "/nauts.png";
+    }else if(value == 'MBA'){
+      return "/mba.png";
+    }else if(value == 'SBC FEEDER'){
+      return "/SBC FEEDER.png";
+    }else if(value == 'PAS SHIPPING'){
+      return "/pas.png";
+    }else if(value == 'ANGLO'){
+      return "/anglo.png";
+    }else if(value == 'RAGA SHIPPING'){
+      return "/raga.png";
+    }else if(value == 'MARTRANS'){
+      return "/Martrans.jpeg";
+    }else if(value == 'A.M Shpg/Great Alliance/ABDIS '){
+      return "/abdis.png";
+    }else if(value == 'DPG'){
+      return "/dpg.png";
+    }else if(value == 'Star Feeder'){
+      return "/star.jpeg";
+    }else if(value == 'Lubeck'){
+      return "/lubeck.png";
+    }else if(value == 'Sealead'){
+      return "/sealead.png";
+    }else if(value == 'Xpress'){
+      return "/xpress.webp";
+    }else if(value == 'XPress'){
+      return "/xpress.webp";
+    }else if(value == 'UNIFEEDER'){
+      return "/unifeeder.webp";
+    }else if(value == 'GFS'){
+      return "/gfs.jpeg";
+    }else if(value == 'DRAGON MARITIMO SEA'){
+      return "/dragon.jpeg";
+    }else if(value == 'Doris'){
+      return "/Doris.avif";
+    }else if(value == 'EMIRATES SHIPPING'){
+      return "/emirates.png";
+    }else if(value == 'HLL GLOBAL'){
+      return "/hmm.png";
+    }else if(value == 'CMA CGM'){
+      return "/cma.png";
+    }else if(value == 'Wet Blue Sheep Skins'){
+      return "/web.png";
+    }
+    console.log(value)
+    return "/complogo.png";
+  }
+
   useEffect(() => {
     if (containerType) {
       const updatedData = result?.filter((item) => item.pod === containerType);
@@ -259,6 +317,7 @@ const Search = () => {
               }}
             >
               <option value="BND">POL</option>
+              <option value="JEA">JABEL ALI</option>
               <option value="BND">BND</option>
               <option value="IRAN">IRAN</option>
               <option value="KANDLA">KANDLA</option>
@@ -296,8 +355,8 @@ const Search = () => {
                 setTo(e.target.value);
               }}
             >
-              <option value="BND">POL</option>
-              <option value="BND">BND</option>
+              <option value="BND">POD</option>
+              <option value="JEA">JABEL ALI</option>
               <option value="IRAN">IRAN</option>
               <option value="KANDLA">KANDLA</option>
               <option value="BUSHEHR">BUSHEHR</option>
@@ -760,7 +819,7 @@ const Search = () => {
                     <div className="item">
                       <div className="itemFirst">
                         <div className="complogocontainer">
-                          <img src="/complogo.png" />
+                          <img src={getCompanyLogo(item?.service?.slot_op_name)} className="company-name" />
                           <h1>
                             {item?.service?.slot_op_name
                               ? item?.service?.slot_op_name

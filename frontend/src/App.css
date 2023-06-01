@@ -238,3 +238,18 @@
   display: flex;
   justify-content: space-between;
 }
+
+.company-name{
+  width: 50px;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.loginform{
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.login-row{
+  margin-top: 8rem;
+}
