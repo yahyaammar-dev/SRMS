@@ -47,32 +47,31 @@ const Login = () => {
             </ul>
           </div>
         </div>
-
         <div className="row login-row">
           <div className="col-md-6 offset-md-3">
             <div className="loginform  p-4 ">
               <form onSubmit={handleSubmit}>
                 <div class="form-outline mb-4">
-                  <label class="form-label" for="form3Example3">
+                  <label class="form-label form-labels" for="form3Example3"  >
                     Email address
                   </label>
                   <input
                     type="email"
                     id="form3Example3"
                     name="email"
-                    class="form-control"
+                    class="form-controls  remove-autofill-bg border-on-focus"
                   />
                 </div>
 
                 <div class="form-outline mb-4">
-                  <label class="form-label" for="form3Example4">
+                  <label class="form-label form-labels" for="form3Example4">
                     Password
                   </label>
                   <input
                     type="password"
                     id="form3Example4"
                     name="password"
-                    class="form-control"
+                    class="form-controls remove-autofill-bg border-on-focus"
                   />
                 </div>
 

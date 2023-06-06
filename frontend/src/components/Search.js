@@ -151,61 +151,62 @@ const Search = () => {
   };
 
   const getCompanyLogo = (value) => {
-    if(value == 'BSS FEEDERS'){
+    if (value == 'BSS FEEDERS') {
       return "/bssfeeder.jpeg";
-    }else if(value == 'SWAN'){
+    } else if (value == 'SWAN') {
       return "/swan.png";
-    }else if(value == 'Vira See'){
+    } else if (value == 'Vira See') {
       return "/vira.png";
-    }else if(value == 'CORPORATE SHIPPING'){
+    } else if (value == 'CORPORATE SHIPPING') {
       return "/vira.png";
-    }else if(value == 'FEEDER NAUTS'){
+    } else if (value == 'FEEDER NAUTS') {
       return "/nauts.png";
-    }else if(value == 'MBA'){
+    } else if (value == 'MBA') {
       return "/mba.png";
-    }else if(value == 'SBC FEEDER'){
-      return "/SBC FEEDER.png";
-    }else if(value == 'PAS SHIPPING'){
+    } else if (value == 'SBC FEEDER') {
+      return null
+      // return "/SBC FEEDER.png";
+    } else if (value == 'PAS SHIPPING') {
       return "/pas.png";
-    }else if(value == 'ANGLO'){
+    } else if (value == 'ANGLO') {
       return "/anglo.png";
-    }else if(value == 'RAGA SHIPPING'){
+    } else if (value == 'RAGA SHIPPING') {
       return "/raga.png";
-    }else if(value == 'MARTRANS'){
+    } else if (value == 'MARTRANS') {
       return "/Martrans.jpeg";
-    }else if(value == 'A.M Shpg/Great Alliance/ABDIS '){
+    } else if (value == 'A.M Shpg/Great Alliance/ABDIS ') {
       return "/abdis.png";
-    }else if(value == 'DPG'){
-      return "/dpg.png";
-    }else if(value == 'Star Feeder'){
+    } else if (value == 'DPG') {
+      return "/DPG.png";
+    } else if (value == 'Star Feeder') {
       return "/star.jpeg";
-    }else if(value == 'Lubeck'){
+    } else if (value == 'Lubeck') {
       return "/lubeck.png";
-    }else if(value == 'Sealead'){
+    } else if (value == 'Sealead') {
       return "/sealead.png";
-    }else if(value == 'Xpress'){
+    } else if (value == 'Xpress') {
       return "/xpress.webp";
-    }else if(value == 'XPress'){
+    } else if (value == 'XPress') {
       return "/xpress.webp";
-    }else if(value == 'UNIFEEDER'){
+    } else if (value == 'UNIFEEDER') {
       return "/unifeeder.webp";
-    }else if(value == 'GFS'){
+    } else if (value == 'GFS') {
       return "/gfs.jpeg";
-    }else if(value == 'DRAGON MARITIMO SEA'){
+    } else if (value == 'DRAGON MARITIMO SEA') {
       return "/dragon.jpeg";
-    }else if(value == 'Doris'){
+    } else if (value == 'Doris') {
       return "/Doris.avif";
-    }else if(value == 'EMIRATES SHIPPING'){
+    } else if (value == 'EMIRATES SHIPPING') {
       return "/emirates.png";
-    }else if(value == 'HLL GLOBAL'){
+    } else if (value == 'HLL GLOBAL') {
       return "/hmm.png";
-    }else if(value == 'CMA CGM'){
+    } else if (value == 'CMA CGM') {
       return "/cma.png";
-    }else if(value == 'Wet Blue Sheep Skins'){
+    } else if (value == 'Wet Blue Sheep Skins') {
       return "/web.png";
     }
-    console.log(value)
-    return "/complogo.png";
+    return null
+    // return "/complogo.png";
   }
 
   useEffect(() => {
@@ -385,7 +386,7 @@ const Search = () => {
           </div>
           <div class="my-div eigth"></div>
           <div className="input-container nine">
-           <img src="/calendar.png" className="width-10" />
+            <img src="/calendar.png" className="width-10" />
             <select
               className="select-field greyish"
               value={month}
@@ -410,7 +411,7 @@ const Search = () => {
       </div>
       <div className="mainData">
         <div className="filters">
-        
+
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Operator Name</h1>
             <div>
@@ -811,15 +812,16 @@ const Search = () => {
               </div>
             </div>
           ) : (
-            
-            data?.slice(count-10, count).map((item, index) => {
+
+            data?.slice(count - 10, count).map((item, index) => {
+              const logo = getCompanyLogo(item?.service?.slot_op_name);
               return (
                 <>
                   <div className="outerContainer">
                     <div className="item">
                       <div className="itemFirst">
                         <div className="complogocontainer">
-                          <img src={getCompanyLogo(item?.service?.slot_op_name)} className="company-name" />
+                        {logo ?  <img src={logo} className="company-name" /> : <span className="non-logo">{item?.service?.slot_op_name.charAt(0)}</span> }
                           <h1>
                             {item?.service?.slot_op_name
                               ? item?.service?.slot_op_name
@@ -950,16 +952,16 @@ const Search = () => {
                 </>
               );
             })
-          
+
           )}
-           <div className="pagination__container">
-            <button className="btn btn-primary" onClick={()=>{
-                  setCount(count-10)
-              }}>
+          <div className="pagination__container">
+            <button className="btn btn-primary" onClick={() => {
+              setCount(count - 10)
+            }}>
               Pervious
             </button>
-            <button className="btn btn-primary" onClick={()=>{
-                setCount(count+10)
+            <button className="btn btn-primary" onClick={() => {
+              setCount(count + 10)
             }
             }>
               Next

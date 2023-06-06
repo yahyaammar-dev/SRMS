@@ -47,33 +47,33 @@ const Signup = () => {
                         <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
                         <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
 
-                        <div class="card bg-glass">
+                        <div class="card">
                             <div class="card-body px-4 py-5 px-md-5">
                                 <form onSubmit={handleSubmit}>
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <label class="form-label" for="form3Example1">Full Name</label>
-                                                <input type="text" id="form3Example1" name="name" class="form-control" />
+                                                <label class="form-label form-labels" for="form3Example1">Full Name</label>
+                                                <input type="text" id="form3Example1" name="name" class="form-controls remove-autofill-bg border-on-focus"/>
                                             </div>
                                         </div>
                                       
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example3">Email address</label>
-                                        <input type="email" id="form3Example3" name="email" class="form-control" />
+                                        <label class="form-label form-labels" for="form3Example3">Email address</label>
+                                        <input type="email" id="form3Example3" name="email"class="form-controls remove-autofill-bg border-on-focus" />
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example4">Password</label>
-                                        <input type="password" id="form3Example4" name="password" class="form-control" />
+                                        <label class="form-label form-labels" for="form3Example4">Password</label>
+                                        <input type="password" id="form3Example4" name="password" class="form-controls remove-autofill-bg border-on-focus" />
                                     </div>
 
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example4">Role</label>
-                                        <select class="form-select" name="roles" aria-label="Default select example">
+                                        <label class="form-label form-labels" for="form3Example4">Select Role</label>
+                                        <select class="form-select form-controls remove-autofill-bg border-on-focus" name="roles" aria-label="Default select example">
                                             <option selected>Role</option>
                                             <option value="Editer">Editor</option>
                                             <option value="Viewer">Viewer</option>
@@ -83,8 +83,8 @@ const Signup = () => {
 
 
                                     <div class="form-check d-flex justify-content-start mb-4">
-                                        <input class="form-check-input me-2" type="checkbox"  id="form2Example33"  />
-                                        <label class="form-check-label" for="form2Example33">
+                                        <input class="form-check-input me-2 " type="checkbox"  id="form2Example33"  />
+                                        <label class="form-check-label " for="form2Example33">
                                             Agree to Terms and Conditions
                                         </label>
                                     </div>

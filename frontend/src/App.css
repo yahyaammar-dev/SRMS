@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -40,22 +41,18 @@
 /** Signup Page **/
 .background-radial-gradient {
   background-color: hsl(218, 41%, 15%);
-  background-image: radial-gradient(
-      650px circle at 0% 0%,
+  background-image: radial-gradient(650px circle at 0% 0%,
       hsl(218, 41%, 35%) 15%,
       hsl(218, 41%, 30%) 35%,
       hsl(218, 41%, 20%) 75%,
       hsl(218, 41%, 19%) 80%,
-      transparent 100%
-    ),
-    radial-gradient(
-      1250px circle at 100% 100%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
       hsl(218, 41%, 45%) 15%,
       hsl(218, 41%, 30%) 35%,
       hsl(218, 41%, 20%) 75%,
       hsl(218, 41%, 19%) 80%,
-      transparent 100%
-    );
+      transparent 100%);
 }
 
 #radius-shape-1 {
@@ -229,27 +226,94 @@
 }
 
 
-.menu li .mybtn{
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+.menu li .mybtn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
-.pagination__container{
+.pagination__container {
   display: flex;
   justify-content: space-between;
 }
 
-.company-name{
+.company-name {
   width: 50px;
   margin-right: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.loginform{
+.form-labels {
+  padding: 0 0.3rem;
+  margin-left: 12px;
+  margin-left: 15px;
+  margin-top: -12px;
+  position: absolute;
+  background-color: white;
+  border: 2px solid white;
+}
+
+.form-controls {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2.6;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1.5px solid #5c7a96;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.7rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.border-on-focus:focus {
+  border: 2px solid #5b758f; /* Change this value to the desired border color */
+  outline: 0;
+  box-shadow: none ; /* Optional: Add a box shadow effect */
+}
+
+/* For Chrome, Safari, and Opera */
+.remove-autofill-bg:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* For Firefox */
+.remove-autofill-bg:-moz-autofill {
+  -moz-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* For Edge and IE */
+.remove-autofill-bg:-ms-input-placeholder {
+  background-color: transparent !important;
+}
+
+/* For all modern browsers */
+.remove-autofill-bg::placeholder {
+  background-color: transparent !important;
+}
+
+.non-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-right: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.loginform {
   border-radius: 1rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.login-row{
+.login-row {
   margin-top: 8rem;
 }
