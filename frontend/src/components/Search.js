@@ -125,15 +125,15 @@ const Search = () => {
     setContainerType(event.target.value);
   };
   const handleRadioChange2 = (event) => {
-    setLoader(true);
+    // setLoader(true);
     setSlotOperatorName(event.target.value);
   };
   const handleRadioChange3 = (event) => {
-    setLoader(true);
+    // setLoader(true);
     setTerminal(event.target.value);
   };
   const handleRadioChange4 = (event) => {
-    setLoader(true);
+    // setLoader(true);
     setSlotTerm(event.target.value);
   };
 
@@ -821,7 +821,7 @@ const Search = () => {
                     <div className="item">
                       <div className="itemFirst">
                         <div className="complogocontainer">
-                        {logo ?  <img src={logo} className="company-name" /> : <span className="non-logo">{item?.service?.slot_op_name.charAt(0)}</span> }
+                          {logo ? <img src={logo} className="company-name" /> : <span className="non-logo">{item?.service?.slot_op_name?.charAt(0)}</span>}
                           <h1>
                             {item?.service?.slot_op_name
                               ? item?.service?.slot_op_name
@@ -954,19 +954,19 @@ const Search = () => {
             })
 
           )}
-          <div className="pagination__container">
-            <button className="btn btn-primary" onClick={() => {
+          {data?.length > 10 && <div className="pagination__container">
+            <button className={`btn btn-primary ${count > 11 ? "" : "disabled"}`} onClick={() => {
               setCount(count - 10)
             }}>
               Pervious
             </button>
-            <button className="btn btn-primary" onClick={() => {
+            <button className={`btn btn-primary ${count < data.length ? "" : "disabled"}`} onClick={() => {
               setCount(count + 10)
             }
             }>
               Next
             </button>
-          </div>
+          </div>}
         </div>
       </div>
     </div>
