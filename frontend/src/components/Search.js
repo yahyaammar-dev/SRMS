@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const Search = () => {
   const [subItem, setSubItem] = useState();
@@ -17,7 +18,7 @@ const Search = () => {
   const navigate = useNavigate();
   const [slotTerm, setSlotTerm] = useState();
   const [month, setMonth] = useState("");
-  const [count, setCount] = useState(10)
+  const [count, setCount] = useState(10);
   const months = [
     "January",
     "February",
@@ -62,6 +63,12 @@ const Search = () => {
 
   const handleSelectChange = (event) => {
     setMonth(event.target.value);
+  };
+  const handleSelectChange2 = (selectedOption) => {
+    setFrom(selectedOption.value);
+  };
+  const handleSelectChange3 = (selectedOption) => {
+    setTo(selectedOption.value);
   };
   const fetchData = async () => {
     try {
@@ -151,63 +158,93 @@ const Search = () => {
   };
 
   const getCompanyLogo = (value) => {
-    if (value == 'BSS FEEDERS') {
+    if (value == "BSS FEEDERS") {
       return "/bssfeeder.jpeg";
-    } else if (value == 'SWAN') {
+    } else if (value == "SWAN") {
       return "/swan.png";
-    } else if (value == 'Vira See') {
+    } else if (value == "Vira See") {
       return "/vira.png";
-    } else if (value == 'CORPORATE SHIPPING') {
+    } else if (value == "CORPORATE SHIPPING") {
       return "/vira.png";
-    } else if (value == 'FEEDER NAUTS') {
+    } else if (value == "FEEDER NAUTS") {
       return "/nauts.png";
-    } else if (value == 'MBA') {
+    } else if (value == "MBA") {
       return "/mba.png";
-    } else if (value == 'SBC FEEDER') {
-      return null
+    } else if (value == "SBC FEEDER") {
+      return null;
       // return "/SBC FEEDER.png";
-    } else if (value == 'PAS SHIPPING') {
+    } else if (value == "PAS SHIPPING") {
       return "/pas.png";
-    } else if (value == 'ANGLO') {
+    } else if (value == "ANGLO") {
       return "/anglo.png";
-    } else if (value == 'RAGA SHIPPING') {
+    } else if (value == "RAGA SHIPPING") {
       return "/raga.png";
-    } else if (value == 'MARTRANS') {
+    } else if (value == "MARTRANS") {
       return "/Martrans.jpeg";
-    } else if (value == 'A.M Shpg/Great Alliance/ABDIS ') {
+    } else if (value == "A.M Shpg/Great Alliance/ABDIS ") {
       return "/abdis.png";
-    } else if (value == 'DPG') {
+    } else if (value == "DPG") {
       return "/DPG.png";
-    } else if (value == 'Star Feeder') {
+    } else if (value == "Star Feeder") {
       return "/star.jpeg";
-    } else if (value == 'Lubeck') {
+    } else if (value == "Lubeck") {
       return "/lubeck.png";
-    } else if (value == 'Sealead') {
+    } else if (value == "Sealead") {
       return "/sealead.png";
-    } else if (value == 'Xpress') {
+    } else if (value == "Xpress") {
       return "/xpress.webp";
-    } else if (value == 'XPress') {
+    } else if (value == "XPress") {
       return "/xpress.webp";
-    } else if (value == 'UNIFEEDER') {
+    } else if (value == "UNIFEEDER") {
       return "/unifeeder.webp";
-    } else if (value == 'GFS') {
+    } else if (value == "GFS") {
       return "/gfs.jpeg";
-    } else if (value == 'DRAGON MARITIMO SEA') {
+    } else if (value == "DRAGON MARITIMO SEA") {
       return "/dragon.jpeg";
-    } else if (value == 'Doris') {
+    } else if (value == "Doris") {
       return "/Doris.avif";
-    } else if (value == 'EMIRATES SHIPPING') {
+    } else if (value == "EMIRATES SHIPPING") {
       return "/emirates.png";
-    } else if (value == 'HLL GLOBAL') {
+    } else if (value == "HLL GLOBAL") {
       return "/hmm.png";
-    } else if (value == 'CMA CGM') {
+    } else if (value == "CMA CGM") {
       return "/cma.png";
-    } else if (value == 'Wet Blue Sheep Skins') {
+    } else if (value == "Wet Blue Sheep Skins") {
       return "/web.png";
     }
-    return null
+    return null;
     // return "/complogo.png";
-  }
+  };
+
+  const options = [
+    { value: "Pol", label: "Pol" },
+    { value: "JEA", label: "JabelAli" },
+    { value: "BND", label: "Bnd" },
+    { value: "IRAN", label: "Iran" },
+    { value: "KANDLA", label: "Kandla" },
+    { value: "BUSHEHR", label: "Bushehr" },
+    { value: "NHAVA SHEVA", label: "NhavaSheva" },
+    { value: "MUNDRA", label: "Mundra" },
+    { value: "MOMBASA", label: "Mombasa" },
+    { value: "BANDAR IMAM KHOMEINI", label: "BandarImamKhomeini" },
+    { value: "BUSHEHR", label: "Bushehr" },
+    { value: "KHORRAM SHAHR", label: "KhorramShahr" },
+    { value: "Assalouyeh", label: "Assalouyeh" },
+    { value: "ABU DHABI", label: "AbuDhabi" },
+    { value: "DAR ES SALAM", label: "DarEsSalam" },
+    { value: "TANGER MED", label: "TangerMed" },
+    { value: "CASABLANCA", label: "Casablanca" },
+    { value: "HAMAD", label: "Hamad" },
+    { value: "COLOMBO", label: "Colombo" },
+    { value: "COCHIN", label: "Cochin" },
+    { value: "CHENNAI", label: "Chennai" },
+    { value: "PORT KLANG", label: "PortKlang" },
+    { value: "SINGAPORE", label: "Singapore" },
+    { value: "SHANGHAI", label: "Shanghai" },
+    { value: "SHEKOU", label: "Shekou" },
+    { value: "HAZIRA", label: "Hazira" },
+    { value: "PIPAVA", label: "Pipava" },
+  ];
 
   useEffect(() => {
     if (containerType) {
@@ -252,7 +289,6 @@ const Search = () => {
     setSubItemOpen(newSubItemOpen);
   };
 
-
   return (
     <div className="mainContainer">
       <div className="navbar">
@@ -289,100 +325,43 @@ const Search = () => {
       </div>
       <div className="searchBar">
         <div className="searchtopbar">
-          <p className="first">TRANSPORTATION BY</p>
-          <p className="second">ORIGIN OF SHIPMENT</p>
-          <p className="third">DESTINATION OF SHIPMENT</p>
-          <p className="fourth">MONTH</p>
+          <p className="first">TransportationBy</p>
+          <p className="second">OriginOfShipment</p>
+          <p className="third">DestinationOfShipment</p>
+          <p className="fourth">Month</p>
         </div>
         <div className="innerSearchBar">
           <div className="d-flex first">
             <button className={isActive ? "seabutton " : "landbutton"}>
-              SEA
+              Sea
             </button>
           </div>
           <div class="my-div second"></div>
           <div className="d-flex third">
             <button className={isActive2 ? "seabutton " : "landbutton"}>
-              LAND
+              Land
             </button>
           </div>
           <div class="my-div fourth"></div>
           <div className="input-container fifth">
             <img src="/marker.png" />
-
-            <select
+            <Select
               className="input-field no-border greyish"
-              value={from}
-              onChange={(e) => {
-                setFrom(e.target.value);
-              }}
-            >
-              <option value="BND">POL</option>
-              <option value="JEA">JABEL ALI</option>
-              <option value="BND">BND</option>
-              <option value="IRAN">IRAN</option>
-              <option value="KANDLA">KANDLA</option>
-              <option value="BUSHEHR">BUSHEHR</option>
-              <option value="NHAVA SHEVA">NHAVA SHEVA</option>
-              <option value="MUNDRA">MUNDRA</option>
-              <option value="MOMBASA">MOMBASA</option>
-              <option value="BANDAR IMAM KHOMEINI">BANDAR IMAM KHOMEINI</option>
-              <option value="BUSHEHR">BUSHEHR</option>
-              <option value="KHORRAM SHAHR">KHORRAM SHAHR</option>
-              <option value="Assalouyeh">Assalouyeh</option>
-              <option value="ABU DHABI">ABU DHABI</option>
-              <option value="DAR ES SALAM">DAR ES SALAM</option>
-              <option value="TANGER MED">TANGER MED</option>
-              <option value="CASABLANCA">CASABLANCA</option>
-              <option value="HAMAD">HAMAD</option>
-              <option value="COLOMBO">COLOMBO</option>
-              <option value="COCHIN">COCHIN</option>
-              <option value="CHENNAI">CHENNAI</option>
-              <option value="PORT KLANG">PORT KLANG</option>
-              <option value="SINGAPORE">SINGAPORE</option>
-              <option value="SHANGHAI">SHANGHAI</option>
-              <option value="SHEKOU">SHEKOU</option>
-              <option value="HAZIRA">HAZIRA</option>
-              <option value="PIPAVA">PIPAVA</option>
-            </select>
+              value={{ value: from, label: from }}
+              options={options}
+              onChange={handleSelectChange2}
+            />
           </div>
           <div class="my-div sixth"></div>
           <div className="input-container seventh ">
             <img src="/marker.png" />
-            <select
+            <Select
               className="input-field no-border greyish"
-              value={to}
-              onChange={(e) => {
-                setTo(e.target.value);
-              }}
-            >
-              <option value="BND">POD</option>
-              <option value="JEA">JABEL ALI</option>
-              <option value="IRAN">IRAN</option>
-              <option value="KANDLA">KANDLA</option>
-              <option value="BUSHEHR">BUSHEHR</option>
-              <option value="NHAVA SHEVA">NHAVA SHEVA</option>
-              <option value="MUNDRA">MUNDRA</option>
-              <option value="MOMBASA">MOMBASA</option>
-              <option value="BANDAR IMAM KHOMEINI">BANDAR IMAM KHOMEINI</option>
-              <option value="BUSHEHR">BUSHEHR</option>
-              <option value="KHORRAM SHAHR">KHORRAM SHAHR</option>
-              <option value="Assalouyeh">Assalouyeh</option>
-              <option value="ABU DHABI">ABU DHABI</option>
-              <option value="DAR ES SALAM">DAR ES SALAM</option>
-              <option value="TANGER MED">TANGER MED</option>
-              <option value="CASABLANCA">CASABLANCA</option>
-              <option value="HAMAD">HAMAD</option>
-              <option value="COLOMBO">COLOMBO</option>
-              <option value="COCHIN">COCHIN</option>
-              <option value="CHENNAI">CHENNAI</option>
-              <option value="PORT KLANG">PORT KLANG</option>
-              <option value="SINGAPORE">SINGAPORE</option>
-              <option value="SHANGHAI">SHANGHAI</option>
-              <option value="SHEKOU">SHEKOU</option>
-              <option value="HAZIRA">HAZIRA</option>
-              <option value="PIPAVA">PIPAVA</option>
-            </select>
+              value={{ value: to, label: to }}
+              options={options}
+              onChange={handleSelectChange3}
+            />
+          
           </div>
           <div class="my-div eigth"></div>
           <div className="input-container nine">
@@ -411,7 +390,6 @@ const Search = () => {
       </div>
       <div className="mainData">
         <div className="filters">
-
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Operator Name</h1>
             <div>
@@ -425,7 +403,7 @@ const Search = () => {
                   value="BSS FEEDERS"
                   onChange={handleRadioChange2}
                 />
-                <p>BSS FEEDERS</p>
+                <p>Bss Feeders</p>
               </div>
               <div
                 className="item"
@@ -437,7 +415,7 @@ const Search = () => {
                   value="FEEDER NAUTS"
                   onChange={handleRadioChange2}
                 />
-                <p>FEEDER NAUTS</p>
+                <p>Feeder Nauts</p>
               </div>
               <div
                 className="item"
@@ -449,7 +427,7 @@ const Search = () => {
                   value="SWAN"
                   onChange={handleRadioChange2}
                 />
-                <p>SWAN</p>
+                <p>Swan</p>
               </div>
               <div
                 className="item"
@@ -473,7 +451,7 @@ const Search = () => {
                   value="CORPORATE SHIPPING"
                   onChange={handleRadioChange2}
                 />
-                <p>CORPORATE SHIPPING</p>
+                <p>Corporate Shipping</p>
               </div>
               <div
                 className="item"
@@ -485,7 +463,7 @@ const Search = () => {
                   value="MBA"
                   onChange={handleRadioChange2}
                 />
-                <p>MBA</p>
+                <p>Mba</p>
               </div>
               <div
                 className="item"
@@ -497,7 +475,7 @@ const Search = () => {
                   value="PAS SHIPPING"
                   onChange={handleRadioChange2}
                 />
-                <p>PAS SHIPPING</p>
+                <p>Pas Shipping</p>
               </div>
               <div
                 className="item"
@@ -509,7 +487,7 @@ const Search = () => {
                   value="INZU / SKZ SHIPPING"
                   onChange={handleRadioChange2}
                 />
-                <p>INZU / SKZ SHIPPING</p>
+                <p>Inzu / Skz Shipping</p>
               </div>
               <div
                 className="item"
@@ -521,7 +499,7 @@ const Search = () => {
                   value="IWS"
                   onChange={handleRadioChange2}
                 />
-                <p>IWS</p>
+                <p>Iws</p>
               </div>
               <div
                 className="item"
@@ -533,7 +511,7 @@ const Search = () => {
                   value="ANGLO"
                   onChange={handleRadioChange2}
                 />
-                <p>ANGLO</p>
+                <p>Anglo</p>
               </div>
               <div
                 className="item"
@@ -545,7 +523,7 @@ const Search = () => {
                   value="RAGA SHIPPING"
                   onChange={handleRadioChange2}
                 />
-                <p>RAGA SHIPPING </p>
+                <p>Raga Shipping </p>
               </div>
               <div
                 className="item"
@@ -557,7 +535,7 @@ const Search = () => {
                   value="MARTRANS"
                   onChange={handleRadioChange2}
                 />
-                <p>MARTRANS</p>
+                <p>Martrans</p>
               </div>
               <div
                 className="item"
@@ -569,7 +547,7 @@ const Search = () => {
                   value="A.M Shpg/Great Alliance/ABDIS"
                   onChange={handleRadioChange2}
                 />
-                <p>A.M Shpg/Great Alliance/ABDIS</p>
+                <p>A.M Shpg/Great Alliance/Abdis</p>
               </div>
               <div
                 className="item"
@@ -581,7 +559,7 @@ const Search = () => {
                   value="DPG"
                   onChange={handleRadioChange2}
                 />
-                <p>DPG</p>
+                <p>Dpg</p>
               </div>
             </div>
           </div>
@@ -598,7 +576,7 @@ const Search = () => {
                   value="KICT"
                   onChange={handleRadioChange3}
                 />
-                <p>KICT</p>
+                <p>Kict</p>
               </div>
               <div
                 className="item"
@@ -610,7 +588,7 @@ const Search = () => {
                   value="QICT"
                   onChange={handleRadioChange3}
                 />
-                <p>QICT</p>
+                <p>Qict</p>
               </div>
               <div
                 className="item"
@@ -622,7 +600,7 @@ const Search = () => {
                   value="B20/ICT"
                   onChange={handleRadioChange3}
                 />
-                <p>B20/ICT</p>
+                <p>B20/Ict</p>
               </div>
               <div
                 className="item"
@@ -634,7 +612,7 @@ const Search = () => {
                   value="BGT20"
                   onChange={handleRadioChange3}
                 />
-                <p>BGT20</p>
+                <p>Bgt20</p>
               </div>
               <div
                 className="item"
@@ -646,7 +624,7 @@ const Search = () => {
                   value="PICT"
                   onChange={handleRadioChange3}
                 />
-                <p>PICT</p>
+                <p>Pict</p>
               </div>
               <div
                 className="item"
@@ -658,7 +636,7 @@ const Search = () => {
                   value="RSGT"
                   onChange={handleRadioChange3}
                 />
-                <p>RSGT</p>
+                <p>Rsgt</p>
               </div>
               <div
                 className="item"
@@ -670,7 +648,7 @@ const Search = () => {
                   value="ICT"
                   onChange={handleRadioChange3}
                 />
-                <p>ICT</p>
+                <p>Ict</p>
               </div>
               <div
                 className="item"
@@ -682,7 +660,7 @@ const Search = () => {
                   value="GTI"
                   onChange={handleRadioChange3}
                 />
-                <p>GTI</p>
+                <p>Gti</p>
               </div>
               <div
                 className="item"
@@ -694,7 +672,7 @@ const Search = () => {
                   value="RSGT"
                   onChange={handleRadioChange3}
                 />
-                <p>RSGT</p>
+                <p>Rsgt</p>
               </div>
             </div>
           </div>
@@ -711,7 +689,7 @@ const Search = () => {
                   value="FIFO"
                   onChange={handleRadioChange4}
                 />
-                <p>FIFO</p>
+                <p>Fifo</p>
               </div>
               <div
                 className="item"
@@ -723,7 +701,7 @@ const Search = () => {
                   value="CYFO"
                   onChange={handleRadioChange4}
                 />
-                <p>CYFO</p>
+                <p>Cyfo</p>
               </div>
               <div
                 className="item"
@@ -735,7 +713,7 @@ const Search = () => {
                   value="CYFO DG"
                   onChange={handleRadioChange4}
                 />
-                <p>CYFO DG</p>
+                <p>Cyfo Dg</p>
               </div>
               <div
                 className="item"
@@ -747,7 +725,7 @@ const Search = () => {
                   value="CYCY"
                   onChange={handleRadioChange4}
                 />
-                <p>CYCY</p>
+                <p>Cycy</p>
               </div>
               <div
                 className="item"
@@ -759,7 +737,7 @@ const Search = () => {
                   value="THRU"
                   onChange={handleRadioChange4}
                 />
-                <p>THRU</p>
+                <p>Thru</p>
               </div>
               <div
                 className="item"
@@ -771,7 +749,7 @@ const Search = () => {
                   value="FIHK"
                   onChange={handleRadioChange4}
                 />
-                <p>FIHK</p>
+                <p>Fihk</p>
               </div>
               <div
                 className="item"
@@ -783,7 +761,7 @@ const Search = () => {
                   value="FITK"
                   onChange={handleRadioChange4}
                 />
-                <p>FITK</p>
+                <p>Fitk</p>
               </div>
               <div
                 className="item"
@@ -795,14 +773,14 @@ const Search = () => {
                   value="FITK/ GEN"
                   onChange={handleRadioChange4}
                 />
-                <p>FITK/ GEN</p>
+                <p>Fitk/ Gen</p>
               </div>
             </div>
           </div>
         </div>
         <div className="listing">
           <div className="firstItem">
-            <button>CHEAPER</button>
+            <button>Cheaper</button>
           </div>
 
           {loader ? (
@@ -812,7 +790,6 @@ const Search = () => {
               </div>
             </div>
           ) : (
-
             data?.slice(count - 10, count).map((item, index) => {
               const logo = getCompanyLogo(item?.service?.slot_op_name);
               return (
@@ -821,17 +798,36 @@ const Search = () => {
                     <div className="item">
                       <div className="itemFirst">
                         <div className="complogocontainer">
-                          {logo ? <img src={logo} className="company-name" /> : <span className="non-logo">{item?.service?.slot_op_name?.charAt(0)}</span>}
+                          {logo ? (
+                            <img src={logo} className="company-name" />
+                          ) : (
+                            <span className="non-logo">
+                              {item?.service?.slot_op_name?.charAt(0)}
+                            </span>
+                          )}
                           <h1>
                             {item?.service?.slot_op_name
-                              ? item?.service?.slot_op_name
+                              ? item?.service?.slot_op_name?.charAt(0) +
+                                item?.service.slot_op_name
+                                  ?.slice(1)
+                                  .toLowerCase()
                               : "Service Name"}
                           </h1>
                         </div>
 
                         <div className="sourcedest">
-                          <p>{item.pol ? item.pol : "POL"}</p>
-                          <p>{item.pod ? item.pod : "POD"}</p>
+                          <p>
+                            {item.pol
+                              ? item.pol?.charAt(0) +
+                                item?.pol?.slice(1)?.toLowerCase()
+                              : "Pol"}
+                          </p>
+                          <p>
+                            {item.pod
+                              ? item.pod?.charAt(0) +
+                                item?.pod?.slice(1)?.toLowerCase()
+                              : "Pod"}
+                          </p>
                         </div>
                         <div className="hori">
                           <div className="outlined-circle"></div>
@@ -952,21 +948,29 @@ const Search = () => {
                 </>
               );
             })
-
           )}
-          {data?.length > 10 && <div className="pagination__container">
-            <button className={`btn btn-primary ${count > 11 ? "" : "disabled"}`} onClick={() => {
-              setCount(count - 10)
-            }}>
-              Pervious
-            </button>
-            <button className={`btn btn-primary ${count < data.length ? "" : "disabled"}`} onClick={() => {
-              setCount(count + 10)
-            }
-            }>
-              Next
-            </button>
-          </div>}
+          {data?.length > 10 && (
+            <div className="pagination__container">
+              <button
+                className={`btn btn-primary ${count > 11 ? "" : "disabled"}`}
+                onClick={() => {
+                  setCount(count - 10);
+                }}
+              >
+                Pervious
+              </button>
+              <button
+                className={`btn btn-primary ${
+                  count < data.length ? "" : "disabled"
+                }`}
+                onClick={() => {
+                  setCount(count + 10);
+                }}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
