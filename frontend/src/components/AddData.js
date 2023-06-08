@@ -49,6 +49,7 @@ const AddData = () => {
                         id="pol"
                         name="pol"
                         class="form-control"
+                        required
                       />
                     </div>
                     <div class="form-outline mb-4">
@@ -60,6 +61,7 @@ const AddData = () => {
                         id="pod"
                         name="pod"
                         class="form-control"
+                        required
                       />
                     </div>
 

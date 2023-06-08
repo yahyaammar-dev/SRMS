@@ -317,3 +317,12 @@
 .login-row {
   margin-top: 8rem;
 }
+
+
+.css-1u9des2-indicatorSeparator{
+  display: none !important;
+}
+
+.css-13cymwt-control{
+  border: none !important;
+}
