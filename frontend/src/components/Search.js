@@ -13,10 +13,10 @@ const Search = () => {
   const [loader, setLoader] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
-  const [from, setFrom] = useState();
-  const [to, setTo] = useState();
+  const [from, setFrom] = useState('Pol');
+  const [to, setTo] = useState('JEA');
   const navigate = useNavigate();
-  const [slotTerm, setSlotTerm] = useState();
+  const [slotTerm, setSlotTerm] = useState([]);
   const [month, setMonth] = useState("");
   const [count, setCount] = useState(10);
   const [year, setYear] = useState()
@@ -50,7 +50,7 @@ const Search = () => {
     setYear(event.target.value)
   }
   const [slotOperatorName, setSlotOperatorName] = useState([]);
-  const [terminal, setTerminal] = useState();
+  const [terminal, setTerminal] = useState([]);
   function getFormattedDate(monthName) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -310,7 +310,7 @@ const Search = () => {
 
         if (slotOperatorName?.length) {
           if (terminal && slotTerm) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((item.Slot_term === slotTerm)  && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (terminal) {
@@ -469,7 +469,7 @@ const Search = () => {
               value={month}
               onChange={handleSelectChange}
             >
-              <option value="">Select a month</option>
+              <option value="">Month</option>
               {months.map((monthName) => (
                 <option key={monthName} value={monthName}>
                   {monthName}
@@ -488,7 +488,7 @@ const Search = () => {
               value={year}
               onChange={handleYear}
             >
-              <option value="">Select a Year</option>
+              <option value="">Year</option>
                 {years.map((yearsitem) => (
                 <option key={yearsitem} value={yearsitem}>
                   {yearsitem}
