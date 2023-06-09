@@ -25,14 +25,14 @@ const Search = () => {
     "February",
     "March",
     "April",
-   
+
   ];
   const monthMap = {
     January: "01",
     February: "02",
     March: "03",
     April: "04",
-   
+
   };
   const years = [
     "2018",
@@ -144,8 +144,8 @@ const Search = () => {
       if (item.pod !== to) {
         return false;
       }
-      
-      if(new Date(item?.attribute?.EFFECTIVE_DATE?.split(".")[2]).getFullYear()!=year){
+
+      if (new Date(item?.attribute?.EFFECTIVE_DATE?.split(".")[2]).getFullYear() != year) {
         return false
       }
       const monthDate = getFormattedDate(month);
@@ -330,19 +330,21 @@ const Search = () => {
   //side bar filter handler
   const filterHandler = () => {
     const filterData = result?.filter((item) => {
-      if (slotOperatorName || terminal || slotTerm) {
+
+      if (slotOperatorName?.length || terminal?.length || slotTerm?.length) {
+
         let returnValue = false
 
         if (slotOperatorName?.length) {
-          if (terminal && slotTerm) {
+          if (terminal?.length && slotTerm?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
-          } else if (terminal) {
+          } else if (terminal?.length) {
             if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
-          } else if (slotTerm) {
+          } else if (slotTerm?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
@@ -356,7 +358,7 @@ const Search = () => {
 
 
         if (terminal?.length) {
-          if (slotOperatorName?.length && slotTerm) {
+          if (slotOperatorName?.length && slotTerm?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && ((slotOperatorName.includes(item?.service?.slot_op_name)))) {
               returnValue = true
             }
@@ -364,7 +366,7 @@ const Search = () => {
             if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
-          } else if (slotTerm) {
+          } else if (slotTerm?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
               returnValue = true
             }
@@ -377,7 +379,7 @@ const Search = () => {
 
 
         if (slotTerm?.length) {
-          if (slotOperatorName?.length && terminal) {
+          if (slotOperatorName?.length && terminal?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
@@ -385,7 +387,7 @@ const Search = () => {
             if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
-          } else if (terminal) {
+          } else if (terminal?.length) {
             if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
               returnValue = true
             }
@@ -405,12 +407,9 @@ const Search = () => {
 
 
   useEffect(() => {
-    if (slotOperatorName?.length || terminal?.length || slotTerm?.length) {
-      filterHandler()
-    }
+    filterHandler()
   }, [slotOperatorName, terminal, slotTerm])
 
-  
 
   return (
     <div className="mainContainer">
@@ -514,7 +513,7 @@ const Search = () => {
               onChange={handleYear}
             >
               <option value="">Select a Year</option>
-                {years.map((yearsitem) => (
+              {years.map((yearsitem) => (
                 <option key={yearsitem} value={yearsitem}>
                   {yearsitem}
                 </option>
