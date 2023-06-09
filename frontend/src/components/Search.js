@@ -407,7 +407,6 @@ const Search = () => {
     }
   }, [slotOperatorName, terminal, slotTerm])
 
-  
 
   return (
     <div className="mainContainer">
