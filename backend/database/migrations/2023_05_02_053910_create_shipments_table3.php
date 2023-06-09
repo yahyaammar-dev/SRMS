@@ -2,7 +2,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateShipmentsTable extends Migration
+class CreateShipmentsTable3 extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,7 @@ class CreateShipmentsTable extends Migration
             $table->id();
             $table->integer('port_id');
             $table->string('pod');
+            $table->string('pol');
             $table->string('terminal');
             $table->integer('volume_per_teu');
             $table->string('T_S_or_diect');
@@ -24,8 +25,7 @@ class CreateShipmentsTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->softDeletes();
-            $table->unsignedBigInteger('shipment_id');
-            $table->unsignedBigInteger('slot_id');
+            $table->unsignedBigInteger('attribute_id');
         });
     }
 

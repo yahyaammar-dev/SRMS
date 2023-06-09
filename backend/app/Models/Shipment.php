@@ -21,5 +21,6 @@ class Shipment extends Model
         'Slot_term',
         'shipment_id',
         'slot_id',
+        'attribute_id'
     ];  
 }
