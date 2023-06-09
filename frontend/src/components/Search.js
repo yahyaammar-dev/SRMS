@@ -19,38 +19,36 @@ const Search = () => {
   const [slotTerm, setSlotTerm] = useState();
   const [month, setMonth] = useState("");
   const [count, setCount] = useState(10);
+  const [year, setYear] = useState()
   const months = [
     "January",
     "February",
     "March",
     "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+   
   ];
   const monthMap = {
     January: "01",
     February: "02",
     March: "03",
     April: "04",
-    May: "05",
-    June: "06",
-    July: "07",
-    August: "08",
-    September: "09",
-    October: "10",
-    November: "11",
-    December: "12",
+   
   };
+  const years = [
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+  ];
   const handleLogout = () => {
     window.localStorage.removeItem("user");
     navigate("/");
   };
+  const handleYear = (event) => {
+    setYear(event.target.value)
+  }
   const [slotOperatorName, setSlotOperatorName] = useState();
   const [terminal, setTerminal] = useState();
   function getFormattedDate(monthName) {
@@ -73,6 +71,7 @@ const Search = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://20.236.136.145/getAllData");
+      console.log(response.data)
       setData(response.data);
       setResult(response.data);
       setLoader(false);
@@ -101,6 +100,10 @@ const Search = () => {
       var realmonth2 = monthDate2?.split(".")[1];
       if (item.pod !== to) {
         return false;
+      }
+      
+      if(new Date(item?.attribute?.EFFECTIVE_DATE?.split(".")[2]).getFullYear()!=year){
+        return false
       }
       const monthDate = getFormattedDate(month);
       if (realmonth !== realmonth2) {
@@ -379,6 +382,28 @@ const Search = () => {
               ))}
             </select>
           </div>
+
+
+
+
+          <div className="input-container nine ninemiddle">
+            <img src="/calendar.png" className="width-10" />
+            <select
+              className="select-field greyish"
+              value={year}
+              onChange={handleYear}
+            >
+              <option value="">Select a Year</option>
+                {years.map((yearsitem) => (
+                <option key={yearsitem} value={yearsitem}>
+                  {yearsitem}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
+
           <div className="ten">
             <img
               src="/serac.jpg"
