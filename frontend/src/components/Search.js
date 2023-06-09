@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -64,12 +64,18 @@ const Search = () => {
   const handleSelectChange = (event) => {
     setMonth(event.target.value);
   };
+
+
   const handleSelectChange2 = (selectedOption) => {
     setFrom(selectedOption.value);
   };
+
+
   const handleSelectChange3 = (selectedOption) => {
     setTo(selectedOption.value);
   };
+
+
   const fetchData = async () => {
     try {
       const response = await axios.get("http://20.236.136.145/getAllData");
@@ -80,15 +86,53 @@ const Search = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+
   useEffect(() => {
     fetchData();
     getUser();
   }, []);
 
+  //Slot Operator Name unique dynamic list 
+  const uniqueSlotOpertors = useMemo(() => {
+    const list = [];
+    result?.filter((itm) => {
+      if (!list?.find((dt) => itm?.service?.slot_op_name === dt) && itm?.service?.slot_op_name) {
+        list?.push(itm?.service?.slot_op_name)
+      }
+    })
+    return list;
+  }, [result]);
+
+//Terminal unique dynamic list 
+  const uniqueTerminals = useMemo(() => {
+    const list = [];
+    result?.filter((itm) => {
+      if (!list?.find((dt) => itm?.terminal === dt) && itm?.terminal) {
+        list?.push(itm?.terminal)
+      }
+    })
+    return list;
+  }, [result]);
+
+//Slot Name unique dynamic list 
+  const uniqueSlotName = useMemo(() => {
+    const list = [];
+    result?.filter((itm) => {
+      if (!list?.find((dt) => itm?.Slot_term === dt) && itm?.Slot_term) {
+        list?.push(itm?.Slot_term)
+      }
+    })
+    return list;
+  }, [result]);
+
+
   const getUser = () => {
     const storedUser = JSON.parse(window.localStorage.getItem("user"));
     setUser(storedUser);
   };
+
+
 
   const handleSerach = () => {
     setLoader(true);
@@ -108,6 +152,7 @@ const Search = () => {
       return true;
     });
     setData(filteredData);
+    setResult(filteredData);
     setLoader(false);
   };
 
@@ -130,16 +175,14 @@ const Search = () => {
     setLoader(true);
     setContainerType(event.target.value);
   };
+
   const handleRadioChange2 = (event) => {
-    // setLoader(true);
     if (slotOperatorName.includes(event.target.value)) {
       let result = slotOperatorName.filter((itm) => itm !== event.target.value);
       setSlotOperatorName(result)
     } else {
       setSlotOperatorName([...slotOperatorName, event.target.value])
     }
-
-    // setSlotOperatorName(event.target.value);
   };
 
 
@@ -147,6 +190,7 @@ const Search = () => {
     // setLoader(true);
     setTerminal(event.target.value);
   };
+
   const handleRadioChange4 = (event) => {
     // setLoader(true);
     setSlotTerm(event.target.value);
@@ -158,6 +202,7 @@ const Search = () => {
     }
     setIsActive((current) => !current);
   };
+
   const handleClick2 = (event) => {
     if (isActive) {
       setIsActive(false);
@@ -253,42 +298,6 @@ const Search = () => {
     { value: "HAZIRA", label: "Hazira" },
     { value: "PIPAVA", label: "Pipava" },
   ];
-
-  // useEffect(() => {
-  //   if (containerType) {
-  //     const updatedData = result?.filter((item) => item.pod === containerType);
-  //     // Now you can update the state with the filtered data
-  //     setData(updatedData);
-  //     setLoader(false);
-  //   }
-  // }, [containerType]);
-
-  // useEffect(() => {
-  //   if (slotOperatorName) {
-  //     const updatedData = result?.filter(
-  //       (item) => item.service.slot_op_name === slotOperatorName
-  //     );
-  //     setData(updatedData);
-  //     setLoader(false);
-  //   }
-  // }, [slotOperatorName]);
-
-  // useEffect(() => {
-  //   if (slotOperatorName) {
-  //     const updatedData = result?.filter((item) => item.terminal === terminal);
-  //     setData(updatedData);
-  //     setLoader(false);
-  //   }
-  // }, [terminal]);
-
-  // useEffect(() => {
-  //   if (slotTerm) {
-  //     console.log(slotTerm);
-  //     const updatedData = result?.filter((item) => item.Slot_term === slotTerm);
-  //     setData(updatedData);
-  //     setLoader(false);
-  //   }
-  // }, [slotTerm]);
 
   const handleSubItemToggle = (index) => {
     console.log(index);
@@ -456,7 +465,7 @@ const Search = () => {
               options={options}
               onChange={handleSelectChange3}
             />
-          
+
           </div>
           <div class="my-div eigth"></div>
           <div className="input-container nine">
@@ -488,388 +497,63 @@ const Search = () => {
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Operator Name</h1>
             <div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="BSS FEEDERS"
-                  onChange={handleRadioChange2}
-                />
-                <p>Bss Feeders</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="FEEDER NAUTS"
-                  onChange={handleRadioChange2}
-                />
-                <p>Feeder Nauts</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="SWAN"
-                  onChange={handleRadioChange2}
-                />
-                <p>Swan</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="Vira See"
-                  onChange={handleRadioChange2}
-                />
-                <p>Vira See</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="CORPORATE SHIPPING"
-                  onChange={handleRadioChange2}
-                />
-                <p>Corporate Shipping</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="MBA"
-                  onChange={handleRadioChange2}
-                />
-                <p>Mba</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="PAS SHIPPING"
-                  onChange={handleRadioChange2}
-                />
-                <p>Pas Shipping</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="INZU / SKZ SHIPPING"
-                  onChange={handleRadioChange2}
-                />
-                <p>Inzu / Skz Shipping</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="IWS"
-                  onChange={handleRadioChange2}
-                />
-                <p>Iws</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="ANGLO"
-                  onChange={handleRadioChange2}
-                />
-                <p>Anglo</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="RAGA SHIPPING"
-                  onChange={handleRadioChange2}
-                />
-                <p>Raga Shipping </p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="MARTRANS"
-                  onChange={handleRadioChange2}
-                />
-                <p>Martrans</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="A.M Shpg/Great Alliance/ABDIS"
-                  onChange={handleRadioChange2}
-                />
-                <p>A.M Shpg/Great Alliance/Abdis</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="checkbox"
-                  name="slotop"
-                  value="DPG"
-                  onChange={handleRadioChange2}
-                />
-                <p>Dpg</p>
-              </div>
+              {uniqueSlotOpertors?.map((itm) => {
+                return (
+                  <div className="item"
+                    style={{ boxShadow: "none", margin: "0", padding: 0 }}
+                  >
+                    <input
+                      type="checkbox"
+                      name="slotop"
+                      value={itm}
+                      onChange={handleRadioChange2}
+                    />
+                    <p>{itm}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Terminal</h1>
             <div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="KICT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Kict</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="QICT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Qict</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="B20/ICT"
-                  onChange={handleRadioChange3}
-                />
-                <p>B20/Ict</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="BGT20"
-                  onChange={handleRadioChange3}
-                />
-                <p>Bgt20</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="PICT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Pict</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="RSGT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Rsgt</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="ICT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Ict</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="GTI"
-                  onChange={handleRadioChange3}
-                />
-                <p>Gti</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="term"
-                  value="RSGT"
-                  onChange={handleRadioChange3}
-                />
-                <p>Rsgt</p>
-              </div>
+              {uniqueTerminals?.map((itm) => {
+                return (
+                  <div
+                    className="item"
+                    style={{ boxShadow: "none", margin: "0", padding: 0 }}
+                  >
+                    <input
+                      type="radio"
+                      name="term"
+                      value={itm}
+                      onChange={handleRadioChange3}
+                    />
+                    <p>{itm}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Term</h1>
             <div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="FIFO"
-                  onChange={handleRadioChange4}
-                />
-                <p>Fifo</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="CYFO"
-                  onChange={handleRadioChange4}
-                />
-                <p>Cyfo</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="CYFO DG"
-                  onChange={handleRadioChange4}
-                />
-                <p>Cyfo Dg</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="CYCY"
-                  onChange={handleRadioChange4}
-                />
-                <p>Cycy</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="THRU"
-                  onChange={handleRadioChange4}
-                />
-                <p>Thru</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="FIHK"
-                  onChange={handleRadioChange4}
-                />
-                <p>Fihk</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="FITK"
-                  onChange={handleRadioChange4}
-                />
-                <p>Fitk</p>
-              </div>
-              <div
-                className="item"
-                style={{ boxShadow: "none", margin: "0", padding: 0 }}
-              >
-                <input
-                  type="radio"
-                  name="containerType"
-                  value="FITK/ GEN"
-                  onChange={handleRadioChange4}
-                />
-                <p>Fitk/ Gen</p>
-              </div>
+              {uniqueSlotName?.map((itm) => {
+                return (
+                  <div
+                    className="item"
+                    style={{ boxShadow: "none", margin: "0", padding: 0 }}
+                  >
+                    <input
+                      type="radio"
+                      name="containerType"
+                      value={itm}
+                      onChange={handleRadioChange4}
+                    />
+                    <p>{itm}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -903,9 +587,9 @@ const Search = () => {
                           <h1>
                             {item?.service?.slot_op_name
                               ? item?.service?.slot_op_name?.charAt(0) +
-                                item?.service.slot_op_name
-                                  ?.slice(1)
-                                  .toLowerCase()
+                              item?.service.slot_op_name
+                                ?.slice(1)
+                                .toLowerCase()
                               : "Service Name"}
                           </h1>
                         </div>
@@ -914,13 +598,13 @@ const Search = () => {
                           <p>
                             {item.pol
                               ? item.pol?.charAt(0) +
-                                item?.pol?.slice(1)?.toLowerCase()
+                              item?.pol?.slice(1)?.toLowerCase()
                               : "Pol"}
                           </p>
                           <p>
                             {item.pod
                               ? item.pod?.charAt(0) +
-                                item?.pod?.slice(1)?.toLowerCase()
+                              item?.pod?.slice(1)?.toLowerCase()
                               : "Pod"}
                           </p>
                         </div>
@@ -1055,9 +739,8 @@ const Search = () => {
                 Pervious
               </button>
               <button
-                className={`btn btn-primary ${
-                  count < data.length ? "" : "disabled"
-                }`}
+                className={`btn btn-primary ${count < data.length ? "" : "disabled"
+                  }`}
                 onClick={() => {
                   setCount(count + 10);
                 }}
