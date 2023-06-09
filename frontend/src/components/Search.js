@@ -49,7 +49,7 @@ const Search = () => {
   const handleYear = (event) => {
     setYear(event.target.value)
   }
-  const [slotOperatorName, setSlotOperatorName] = useState();
+  const [slotOperatorName, setSlotOperatorName] = useState([]);
   const [terminal, setTerminal] = useState();
   function getFormattedDate(monthName) {
     const currentDate = new Date();
@@ -91,7 +91,6 @@ const Search = () => {
 
   const handleSerach = () => {
     setLoader(true);
-
     const customdata = result;
     const filteredData = customdata.filter((item) => {
       const monthDate2 = getFormattedDate(month);
@@ -136,8 +135,17 @@ const Search = () => {
   };
   const handleRadioChange2 = (event) => {
     // setLoader(true);
-    setSlotOperatorName(event.target.value);
+    if (slotOperatorName.includes(event.target.value)) {
+      let result = slotOperatorName.filter((itm) => itm !== event.target.value);
+      setSlotOperatorName(result)
+    } else {
+      setSlotOperatorName([...slotOperatorName, event.target.value])
+    }
+
+    // setSlotOperatorName(event.target.value);
   };
+
+
   const handleRadioChange3 = (event) => {
     // setLoader(true);
     setTerminal(event.target.value);
@@ -249,41 +257,41 @@ const Search = () => {
     { value: "PIPAVA", label: "Pipava" },
   ];
 
-  useEffect(() => {
-    if (containerType) {
-      const updatedData = result?.filter((item) => item.pod === containerType);
-      // Now you can update the state with the filtered data
-      setData(updatedData);
-      setLoader(false);
-    }
-  }, [containerType]);
+  // useEffect(() => {
+  //   if (containerType) {
+  //     const updatedData = result?.filter((item) => item.pod === containerType);
+  //     // Now you can update the state with the filtered data
+  //     setData(updatedData);
+  //     setLoader(false);
+  //   }
+  // }, [containerType]);
 
-  useEffect(() => {
-    if (slotOperatorName) {
-      const updatedData = result?.filter(
-        (item) => item.service.slot_op_name === slotOperatorName
-      );
-      setData(updatedData);
-      setLoader(false);
-    }
-  }, [slotOperatorName]);
+  // useEffect(() => {
+  //   if (slotOperatorName) {
+  //     const updatedData = result?.filter(
+  //       (item) => item.service.slot_op_name === slotOperatorName
+  //     );
+  //     setData(updatedData);
+  //     setLoader(false);
+  //   }
+  // }, [slotOperatorName]);
 
-  useEffect(() => {
-    if (slotOperatorName) {
-      const updatedData = result?.filter((item) => item.terminal === terminal);
-      setData(updatedData);
-      setLoader(false);
-    }
-  }, [terminal]);
+  // useEffect(() => {
+  //   if (slotOperatorName) {
+  //     const updatedData = result?.filter((item) => item.terminal === terminal);
+  //     setData(updatedData);
+  //     setLoader(false);
+  //   }
+  // }, [terminal]);
 
-  useEffect(() => {
-    if (slotTerm) {
-      console.log(slotTerm);
-      const updatedData = result?.filter((item) => item.Slot_term === slotTerm);
-      setData(updatedData);
-      setLoader(false);
-    }
-  }, [slotTerm]);
+  // useEffect(() => {
+  //   if (slotTerm) {
+  //     console.log(slotTerm);
+  //     const updatedData = result?.filter((item) => item.Slot_term === slotTerm);
+  //     setData(updatedData);
+  //     setLoader(false);
+  //   }
+  // }, [slotTerm]);
 
   const handleSubItemToggle = (index) => {
     console.log(index);
@@ -291,6 +299,93 @@ const Search = () => {
     newSubItemOpen[index] = !newSubItemOpen[index];
     setSubItemOpen(newSubItemOpen);
   };
+
+
+
+  //side bar filter handler
+  const filterHandler = () => {
+    const filterData = result?.filter((item) => {
+      if (slotOperatorName || terminal || slotTerm) {
+        let returnValue = false
+
+        if (slotOperatorName?.length) {
+          if (terminal && slotTerm) {
+            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else if (terminal) {
+            if ((item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else if (slotTerm) {
+            if ((item.Slot_term === slotTerm) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else {
+            if ((slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          }
+        }
+
+
+
+        if (terminal) {
+          if (slotOperatorName?.length && slotTerm) {
+            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && ((slotOperatorName.includes(item?.service?.slot_op_name)))) {
+              returnValue = true
+            }
+          } else if (slotOperatorName?.length) {
+            if ((item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else if (slotTerm) {
+            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal)) {
+              returnValue = true
+            }
+          } else {
+            if (item?.terminal === terminal) {
+              returnValue = true
+            }
+          }
+        }
+
+
+        if (slotTerm) {
+          if (slotOperatorName?.length && terminal) {
+            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else if (slotOperatorName?.length) {
+            if ((item.Slot_term === slotTerm) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+              returnValue = true
+            }
+          } else if (terminal) {
+            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal)) {
+              returnValue = true
+            }
+          } else {
+            if (item.Slot_term === slotTerm) {
+              returnValue = true
+            }
+          }
+        }
+
+        return returnValue;
+      }
+      return true;
+    });
+    setData(filterData)
+  }
+
+
+  useEffect(() => {
+    if (slotOperatorName?.length || terminal || slotTerm) {
+      filterHandler()
+    }
+  }, [slotOperatorName, terminal, slotTerm])
+
+
 
   return (
     <div className="mainContainer">
@@ -423,7 +518,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="BSS FEEDERS"
                   onChange={handleRadioChange2}
@@ -435,7 +530,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="FEEDER NAUTS"
                   onChange={handleRadioChange2}
@@ -447,7 +542,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="SWAN"
                   onChange={handleRadioChange2}
@@ -459,7 +554,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="Vira See"
                   onChange={handleRadioChange2}
@@ -471,7 +566,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="CORPORATE SHIPPING"
                   onChange={handleRadioChange2}
@@ -483,7 +578,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="MBA"
                   onChange={handleRadioChange2}
@@ -495,7 +590,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="PAS SHIPPING"
                   onChange={handleRadioChange2}
@@ -507,7 +602,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="INZU / SKZ SHIPPING"
                   onChange={handleRadioChange2}
@@ -519,7 +614,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="IWS"
                   onChange={handleRadioChange2}
@@ -531,7 +626,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="ANGLO"
                   onChange={handleRadioChange2}
@@ -543,7 +638,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="RAGA SHIPPING"
                   onChange={handleRadioChange2}
@@ -555,7 +650,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="MARTRANS"
                   onChange={handleRadioChange2}
@@ -567,7 +662,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="A.M Shpg/Great Alliance/ABDIS"
                   onChange={handleRadioChange2}
@@ -579,7 +674,7 @@ const Search = () => {
                 style={{ boxShadow: "none", margin: "0", padding: 0 }}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="slotop"
                   value="DPG"
                   onChange={handleRadioChange2}
