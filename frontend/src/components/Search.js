@@ -16,7 +16,7 @@ const Search = () => {
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   const navigate = useNavigate();
-  const [slotTerm, setSlotTerm] = useState();
+  const [slotTerm, setSlotTerm] = useState([]);
   const [month, setMonth] = useState("");
   const [count, setCount] = useState(10);
   const [year, setYear] = useState()
@@ -50,7 +50,7 @@ const Search = () => {
     setYear(event.target.value)
   }
   const [slotOperatorName, setSlotOperatorName] = useState([]);
-  const [terminal, setTerminal] = useState();
+  const [terminal, setTerminal] = useState([]);
   function getFormattedDate(monthName) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -103,7 +103,7 @@ const Search = () => {
     return list;
   }, [result]);
 
-//Terminal unique dynamic list 
+  //Terminal unique dynamic list 
   const uniqueTerminals = useMemo(() => {
     const list = [];
     result?.filter((itm) => {
@@ -114,7 +114,7 @@ const Search = () => {
     return list;
   }, [result]);
 
-//Slot Name unique dynamic list 
+  //Slot Name unique dynamic list 
   const uniqueSlotName = useMemo(() => {
     const list = [];
     result?.filter((itm) => {
@@ -191,12 +191,28 @@ const Search = () => {
 
   const handleRadioChange3 = (event) => {
     // setLoader(true);
-    setTerminal(event.target.value);
+    // setTerminal(event.target.value);
+
+
+    if (terminal?.includes(event.target.value)) {
+      let result = terminal.filter((itm) => itm !== event.target.value);
+      setTerminal(result)
+    } else {
+      setTerminal([...terminal, event.target.value])
+    }
+
   };
 
   const handleRadioChange4 = (event) => {
     // setLoader(true);
-    setSlotTerm(event.target.value);
+    // setSlotTerm(event.target.value);
+
+    if (slotTerm?.includes(event.target.value)) {
+      let result = slotTerm.filter((itm) => itm !== event.target.value);
+      setSlotTerm(result)
+    } else {
+      setSlotTerm([...slotTerm, event.target.value])
+    }
   };
 
   const handleClick = (event) => {
@@ -319,15 +335,15 @@ const Search = () => {
 
         if (slotOperatorName?.length) {
           if (terminal && slotTerm) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (terminal) {
-            if ((item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (slotTerm) {
-            if ((item.Slot_term === slotTerm) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else {
@@ -339,42 +355,42 @@ const Search = () => {
 
 
 
-        if (terminal) {
+        if (terminal?.length) {
           if (slotOperatorName?.length && slotTerm) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && ((slotOperatorName.includes(item?.service?.slot_op_name)))) {
+            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && ((slotOperatorName.includes(item?.service?.slot_op_name)))) {
               returnValue = true
             }
           } else if (slotOperatorName?.length) {
-            if ((item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (slotTerm) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal)) {
+            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
               returnValue = true
             }
           } else {
-            if (item?.terminal === terminal) {
+            if (terminal.includes(item?.terminal)) {
               returnValue = true
             }
           }
         }
 
 
-        if (slotTerm) {
+        if (slotTerm?.length) {
           if (slotOperatorName?.length && terminal) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (slotOperatorName?.length) {
-            if ((item.Slot_term === slotTerm) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
+            if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
               returnValue = true
             }
           } else if (terminal) {
-            if ((item.Slot_term === slotTerm) && (item?.terminal === terminal)) {
+            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
               returnValue = true
             }
           } else {
-            if (item.Slot_term === slotTerm) {
+            if (slotTerm.includes(item.Slot_term)) {
               returnValue = true
             }
           }
@@ -389,12 +405,12 @@ const Search = () => {
 
 
   useEffect(() => {
-    if (slotOperatorName?.length || terminal || slotTerm) {
+    if (slotOperatorName?.length || terminal?.length || slotTerm?.length) {
       filterHandler()
     }
   }, [slotOperatorName, terminal, slotTerm])
 
-
+  
 
   return (
     <div className="mainContainer">
@@ -549,7 +565,7 @@ const Search = () => {
                     style={{ boxShadow: "none", margin: "0", padding: 0 }}
                   >
                     <input
-                      type="radio"
+                      type="checkbox"
                       name="term"
                       value={itm}
                       onChange={handleRadioChange3}
@@ -570,7 +586,7 @@ const Search = () => {
                     style={{ boxShadow: "none", margin: "0", padding: 0 }}
                   >
                     <input
-                      type="radio"
+                      type="checkbox"
                       name="containerType"
                       value={itm}
                       onChange={handleRadioChange4}
