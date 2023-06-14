@@ -283,6 +283,10 @@ const Search = () => {
       return "/cma.png";
     } else if (value == "Wet Blue Sheep Skins") {
       return "/web.png";
+    } else if (value == "Inzu / skz shipping") {
+      return "/inzu.png";
+    } else if (value == "Hapag") {
+      return "/hapag.png";
     }
     return null;
     // return "/complogo.png";
@@ -451,6 +455,7 @@ const Search = () => {
           <p className="second">OriginOfShipment</p>
           <p className="third">DestinationOfShipment</p>
           <p className="fourth">Month</p>
+          <p className="fifth">Year</p>
         </div>
         <div className="innerSearchBar">
           <div className="d-flex first">
@@ -548,7 +553,7 @@ const Search = () => {
                       value={itm}
                       onChange={handleRadioChange2}
                     />
-                    <p>{itm}</p>
+                    <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
                 )
               })}
@@ -569,7 +574,7 @@ const Search = () => {
                       value={itm}
                       onChange={handleRadioChange3}
                     />
-                    <p>{itm}</p>
+                       <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
                 )
               })}
@@ -590,7 +595,7 @@ const Search = () => {
                       value={itm}
                       onChange={handleRadioChange4}
                     />
-                    <p>{itm}</p>
+                       <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
                 )
               })}
@@ -633,7 +638,6 @@ const Search = () => {
                               : "Service Name"}
                           </h1>
                         </div>
-
                         <div className="sourcedest">
                           <p>
                             {item.pol
