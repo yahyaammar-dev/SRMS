@@ -13,42 +13,44 @@ const Search = () => {
   const [loader, setLoader] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
-  const [from, setFrom] = useState('Pol');
-  const [to, setTo] = useState('JEA');
+  const [from, setFrom] = useState("JEA");
+  const [to, setTo] = useState("BND");
   const navigate = useNavigate();
   const [slotTerm, setSlotTerm] = useState([]);
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState("April");
   const [count, setCount] = useState(10);
-  const [year, setYear] = useState()
+  const [year, setYear] = useState(2023);
+  const [filteredPolsPods  ,setFilteredPolsPods] = useState()
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
   ];
+
   const monthMap = {
     January: "01",
     February: "02",
     March: "03",
     April: "04",
-
   };
+
   const years = [
-    "2018",
-    "2019",
-    "2020",
-    "2021",
-    "2022",
-    "2023",
+    { value: "2018", label: "2018" },
+    { value: "2019", label: "2019" },
+    { value: "2020", label: "2020" },
+    { value: "2021", label: "2021" },
+    { value: "2022", label: "2022" },
+    { value: "2023", label: "2023" },
   ];
+
   const handleLogout = () => {
     window.localStorage.removeItem("user");
     navigate("/");
   };
   const handleYear = (event) => {
-    setYear(event.target.value)
-  }
+    setYear(event.target.value);
+  };
   const [slotOperatorName, setSlotOperatorName] = useState([]);
   const [terminal, setTerminal] = useState([]);
   function getFormattedDate(monthName) {
@@ -63,77 +65,124 @@ const Search = () => {
     setMonth(event.target.value);
   };
 
-
   const handleSelectChange2 = (selectedOption) => {
     setFrom(selectedOption.value);
   };
-
 
   const handleSelectChange3 = (selectedOption) => {
     setTo(selectedOption.value);
   };
 
+  const handleSelectChangeMonth = (selectedOption) => {
+    setMonth(selectedOption.value);
+  };
+
+  const handleSelectChangeYear = (selectedOption) => {
+    setYear(selectedOption.value);
+  };
 
   const fetchData = async () => {
     try {
       const response = await axios.get("http://20.236.136.145/getAllData");
-      console.log(response.data)
-      setData(response.data);
-      setResult(response.data);
+      const sortedData = response?.data?.sort((a, b) => {
+        const priceA = parseInt(a.attribute.LDN_20ft);
+        const priceB = parseInt(b.attribute.LDN_20ft);
+
+        return priceA - priceB;
+      });
+
+      const pods = sortedData.map((item) => item.pod);
+      const pols = sortedData.map((item) => item.pol);
+
+      const options = [
+        { value: "ABU DHABI", label: "AbuDhabi" },
+        { value: "Assalouyeh", label: "Assalouyeh" },
+        { value: "BANDAR IMAM KHOMEINI", label: "BandarImamKhomeini" },
+        { value: "BND", label: "Bnd" },
+        { value: "BUSHEHR", label: "Bushehr" },
+        { value: "CASABLANCA", label: "Casablanca" },
+        { value: "CHENNAI", label: "Chennai" },
+        { value: "COCHIN", label: "Cochin" },
+        { value: "COLOMBO", label: "Colombo" },
+        { value: "DAR ES SALAM", label: "DarEsSalam" },
+        { value: "HAMAD", label: "Hamad" },
+        { value: "HAZIRA", label: "Hazira" },
+        { value: "IRAN", label: "Iran" },
+        { value: "JEA", label: "JabelAli" },
+        { value: "KHORRAM SHAHR", label: "KhorramShahr" },
+        { value: "KANDLA", label: "Kandla" },
+        { value: "MOMBASA", label: "Mombasa" },
+        { value: "MUNDRA", label: "Mundra" },
+        { value: "NHAVA SHEVA", label: "NhavaSheva" },
+        { value: "PIPAVA", label: "Pipava" },
+        { value: "PORT KLANG", label: "PortKlang" },
+        { value: "SHEKOU", label: "Shekou" },
+        { value: "SHANGHAI", label: "Shanghai" },
+        { value: "SINGAPORE", label: "Singapore" },
+        { value: "TANGER MED", label: "TangerMed" },
+      ];
+
+      const filteredOptions = options.filter(option => {
+        return pols.includes(option.value) || pods.includes(option.value);
+      });
+
+      setFilteredPolsPods(filteredOptions)
+      setData(sortedData);
+      setResult(sortedData);
       setLoader(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-
   useEffect(() => {
     fetchData();
     getUser();
   }, []);
 
-  //Slot Operator Name unique dynamic list 
+  //Slot Operator Name unique dynamic list
   const uniqueSlotOpertors = useMemo(() => {
     const list = [];
     result?.filter((itm) => {
-      if (!list?.find((dt) => itm?.service?.slot_op_name === dt) && itm?.service?.slot_op_name) {
-        list?.push(itm?.service?.slot_op_name)
+      if (
+        !list?.find((dt) => itm?.service?.slot_op_name === dt) &&
+        itm?.service?.slot_op_name
+      ) {
+        list?.push(itm?.service?.slot_op_name);
       }
-    })
+    });
     return list;
   }, [result]);
 
-  //Terminal unique dynamic list 
+  //Terminal unique dynamic list
   const uniqueTerminals = useMemo(() => {
     const list = [];
     result?.filter((itm) => {
       if (!list?.find((dt) => itm?.terminal === dt) && itm?.terminal) {
-        list?.push(itm?.terminal)
+        list?.push(itm?.terminal);
       }
-    })
+    });
     return list;
   }, [result]);
 
-  //Slot Name unique dynamic list 
+  //Slot Name unique dynamic list
   const uniqueSlotName = useMemo(() => {
     const list = [];
     result?.filter((itm) => {
       if (!list?.find((dt) => itm?.Slot_term === dt) && itm?.Slot_term) {
-        list?.push(itm?.Slot_term)
+        list?.push(itm?.Slot_term);
       }
-    })
+    });
     return list;
   }, [result]);
-
 
   const getUser = () => {
     const storedUser = JSON.parse(window.localStorage.getItem("user"));
     setUser(storedUser);
   };
 
-
-
   const handleSerach = () => {
+    console.log(result);
     setLoader(true);
     const customdata = result;
     const filteredData = customdata.filter((item) => {
@@ -141,12 +190,19 @@ const Search = () => {
       var date = item.attribute.VALIDITY;
       var realmonth = date?.split(".")[1];
       var realmonth2 = monthDate2?.split(".")[1];
+      if (item.pol !== from) {
+        return false;
+      }
       if (item.pod !== to) {
         return false;
       }
 
-      if (new Date(item?.attribute?.EFFECTIVE_DATE?.split(".")[2]).getFullYear() != year) {
-        return false
+      if (
+        new Date(
+          item?.attribute?.EFFECTIVE_DATE?.split(".")[2]
+        ).getFullYear() != year
+      ) {
+        return false;
       }
       const monthDate = getFormattedDate(month);
       if (realmonth !== realmonth2) {
@@ -182,25 +238,22 @@ const Search = () => {
   const handleRadioChange2 = (event) => {
     if (slotOperatorName.includes(event.target.value)) {
       let result = slotOperatorName.filter((itm) => itm !== event.target.value);
-      setSlotOperatorName(result)
+      setSlotOperatorName(result);
     } else {
-      setSlotOperatorName([...slotOperatorName, event.target.value])
+      setSlotOperatorName([...slotOperatorName, event.target.value]);
     }
   };
-
 
   const handleRadioChange3 = (event) => {
     // setLoader(true);
     // setTerminal(event.target.value);
 
-
     if (terminal?.includes(event.target.value)) {
       let result = terminal.filter((itm) => itm !== event.target.value);
-      setTerminal(result)
+      setTerminal(result);
     } else {
-      setTerminal([...terminal, event.target.value])
+      setTerminal([...terminal, event.target.value]);
     }
-
   };
 
   const handleRadioChange4 = (event) => {
@@ -209,9 +262,9 @@ const Search = () => {
 
     if (slotTerm?.includes(event.target.value)) {
       let result = slotTerm.filter((itm) => itm !== event.target.value);
-      setSlotTerm(result)
+      setSlotTerm(result);
     } else {
-      setSlotTerm([...slotTerm, event.target.value])
+      setSlotTerm([...slotTerm, event.target.value]);
     }
   };
 
@@ -293,111 +346,131 @@ const Search = () => {
   };
 
   const options = [
-    { value: "Pol", label: "Pol" },
-    { value: "JEA", label: "JabelAli" },
-    { value: "BND", label: "Bnd" },
-    { value: "IRAN", label: "Iran" },
-    { value: "KANDLA", label: "Kandla" },
-    { value: "BUSHEHR", label: "Bushehr" },
-    { value: "NHAVA SHEVA", label: "NhavaSheva" },
-    { value: "MUNDRA", label: "Mundra" },
-    { value: "MOMBASA", label: "Mombasa" },
-    { value: "BANDAR IMAM KHOMEINI", label: "BandarImamKhomeini" },
-    { value: "BUSHEHR", label: "Bushehr" },
-    { value: "KHORRAM SHAHR", label: "KhorramShahr" },
-    { value: "Assalouyeh", label: "Assalouyeh" },
     { value: "ABU DHABI", label: "AbuDhabi" },
-    { value: "DAR ES SALAM", label: "DarEsSalam" },
-    { value: "TANGER MED", label: "TangerMed" },
+    { value: "Assalouyeh", label: "Assalouyeh" },
+    { value: "BANDAR IMAM KHOMEINI", label: "BandarImamKhomeini" },
+    { value: "BND", label: "Bnd" },
+    { value: "BUSHEHR", label: "Bushehr" },
     { value: "CASABLANCA", label: "Casablanca" },
-    { value: "HAMAD", label: "Hamad" },
-    { value: "COLOMBO", label: "Colombo" },
-    { value: "COCHIN", label: "Cochin" },
     { value: "CHENNAI", label: "Chennai" },
-    { value: "PORT KLANG", label: "PortKlang" },
-    { value: "SINGAPORE", label: "Singapore" },
-    { value: "SHANGHAI", label: "Shanghai" },
-    { value: "SHEKOU", label: "Shekou" },
+    { value: "COCHIN", label: "Cochin" },
+    { value: "COLOMBO", label: "Colombo" },
+    { value: "DAR ES SALAM", label: "DarEsSalam" },
+    { value: "HAMAD", label: "Hamad" },
     { value: "HAZIRA", label: "Hazira" },
+    { value: "IRAN", label: "Iran" },
+    { value: "JEA", label: "JabelAli" },
+    { value: "KHORRAM SHAHR", label: "KhorramShahr" },
+    { value: "KANDLA", label: "Kandla" },
+    { value: "MOMBASA", label: "Mombasa" },
+    { value: "MUNDRA", label: "Mundra" },
+    { value: "NHAVA SHEVA", label: "NhavaSheva" },
     { value: "PIPAVA", label: "Pipava" },
+    { value: "PORT KLANG", label: "PortKlang" },
+    { value: "SHEKOU", label: "Shekou" },
+    { value: "SHANGHAI", label: "Shanghai" },
+    { value: "SINGAPORE", label: "Singapore" },
+    { value: "TANGER MED", label: "TangerMed" },
   ];
 
   const handleSubItemToggle = (index) => {
-    console.log(index);
     const newSubItemOpen = [...subItemOpen];
     newSubItemOpen[index] = !newSubItemOpen[index];
     setSubItemOpen(newSubItemOpen);
   };
 
-
-
   //side bar filter handler
   const filterHandler = () => {
     const filterData = result?.filter((item) => {
-
       if (slotOperatorName?.length || terminal?.length || slotTerm?.length) {
-
-        let returnValue = false
+        let returnValue = false;
 
         if (slotOperatorName?.length) {
           if (terminal?.length && slotTerm?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              terminal.includes(item?.terminal) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (terminal?.length) {
-            if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              terminal.includes(item?.terminal) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (slotTerm?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else {
-            if ((slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (slotOperatorName.includes(item?.service?.slot_op_name)) {
+              returnValue = true;
             }
           }
         }
-
-
 
         if (terminal?.length) {
           if (slotOperatorName?.length && slotTerm?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && ((slotOperatorName.includes(item?.service?.slot_op_name)))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              terminal.includes(item?.terminal) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (slotOperatorName?.length) {
-            if ((terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              terminal.includes(item?.terminal) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (slotTerm?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              terminal.includes(item?.terminal)
+            ) {
+              returnValue = true;
             }
           } else {
             if (terminal.includes(item?.terminal)) {
-              returnValue = true
+              returnValue = true;
             }
           }
         }
 
-
         if (slotTerm?.length) {
           if (slotOperatorName?.length && terminal?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              terminal.includes(item?.terminal) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (slotOperatorName?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (slotOperatorName.includes(item?.service?.slot_op_name))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              slotOperatorName.includes(item?.service?.slot_op_name)
+            ) {
+              returnValue = true;
             }
           } else if (terminal?.length) {
-            if ((slotTerm.includes(item.Slot_term)) && (terminal.includes(item?.terminal))) {
-              returnValue = true
+            if (
+              slotTerm.includes(item.Slot_term) &&
+              terminal.includes(item?.terminal)
+            ) {
+              returnValue = true;
             }
           } else {
             if (slotTerm.includes(item.Slot_term)) {
-              returnValue = true
+              returnValue = true;
             }
           }
         }
@@ -406,19 +479,24 @@ const Search = () => {
       }
       return true;
     });
-    setData(filterData)
-  }
-
+    setData(filterData);
+  };
 
   useEffect(() => {
-    filterHandler()
-  }, [slotOperatorName, terminal, slotTerm])
-
+    filterHandler();
+  }, [slotOperatorName, terminal, slotTerm]);
 
   return (
     <div className="mainContainer">
       <div className="navbar">
-        <img src="/logo.png" className="logo" />
+        <img
+          src="/logo.png"
+          className="logo mainlogo"
+          onClick={() => {
+            console.log("hello world");
+            fetchData();
+          }}
+        />
         <div>
           <ul className="menu">
             {user?.roles == "Editer" && (
@@ -451,84 +529,66 @@ const Search = () => {
       </div>
       <div className="searchBar">
         <div className="searchtopbar">
-          <p className="first">TransportationBy</p>
-          <p className="second">OriginOfShipment</p>
-          <p className="third">DestinationOfShipment</p>
+          <p className="first">Transportation By</p>
+          <p className="second">Origin Of Shipment</p>
+          <p className="third">Destination Of Shipment</p>
           <p className="fourth">Month</p>
           <p className="fifth">Year</p>
         </div>
         <div className="innerSearchBar">
-          <div className="d-flex first">
+          <div className="d-flex first maindiv">
             <button className={isActive ? "seabutton " : "landbutton"}>
               Sea
             </button>
           </div>
-          <div class="my-div second"></div>
-          <div className="d-flex third">
+          <div class="my-div second maindiv"></div>
+          <div className="d-flex third maindiv">
             <button className={isActive2 ? "seabutton " : "landbutton"}>
               Land
             </button>
           </div>
-          <div class="my-div fourth"></div>
-          <div className="input-container fifth">
+          <div class="my-div fourth maindiv"></div>
+          <div className="input-container fifth maindiv">
             <img src="/marker.png" />
             <Select
-              className="input-field no-border greyish"
+              className="input-field no-border greyish maindiv"
               value={{ value: from, label: from }}
-              options={options}
+              options={filteredPolsPods}
               onChange={handleSelectChange2}
             />
           </div>
-          <div class="my-div sixth"></div>
-          <div className="input-container seventh ">
+          <div class="my-div sixth maindiv"></div>
+          <div className="input-container seventh maindiv">
             <img src="/marker.png" />
             <Select
-              className="input-field no-border greyish"
+              className="input-field no-border greyish maindiv"
               value={{ value: to, label: to }}
-              options={options}
+              options={filteredPolsPods}
               onChange={handleSelectChange3}
             />
-
           </div>
-          <div class="my-div eigth"></div>
-          <div className="input-container nine">
+          <div class="my-div eigth maindiv"></div>
+          <div className="input-container nine maindiv">
             <img src="/calendar.png" className="width-10" />
-            <select
-              className="select-field greyish"
-              value={month}
-              onChange={handleSelectChange}
-            >
-              <option value="">Month</option>
-              {months.map((monthName) => (
-                <option key={monthName} value={monthName}>
-                  {monthName}
-                </option>
-              ))}
-            </select>
+            <Select
+              className="input-field no-border greyish lesser-width"
+              value={{ value: month, label: month }}
+              options={months}
+              onChange={handleSelectChangeMonth}
+            />
           </div>
 
-
-
-
-          <div className="input-container nine ninemiddle">
+          <div className="input-container nine ninemiddle maindiv">
             <img src="/calendar.png" className="width-10" />
-            <select
-              className="select-field greyish"
-              value={year}
-              onChange={handleYear}
-            >
-              <option value="">Select a Year</option>
-              {years.map((yearsitem) => (
-                <option key={yearsitem} value={yearsitem}>
-                  {yearsitem}
-                </option>
-              ))}
-            </select>
+            <Select
+              className="input-field no-border greyish lesser-width"
+              value={{ value: year, label: year }}
+              options={years}
+              onChange={handleSelectChangeYear}
+            />
           </div>
 
-
-
-          <div className="ten">
+          <div className="ten maindiv">
             <img
               src="/serac.jpg"
               className="serachImage"
@@ -541,10 +601,11 @@ const Search = () => {
         <div className="filters">
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Operator Name</h1>
-            <div>
+            <div className="filters--content">
               {uniqueSlotOpertors?.map((itm) => {
                 return (
-                  <div className="item"
+                  <div
+                    className="item"
                     style={{ boxShadow: "none", margin: "0", padding: 0 }}
                   >
                     <input
@@ -555,13 +616,13 @@ const Search = () => {
                     />
                     <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Terminal</h1>
-            <div>
+            <div className="filters--content">
               {uniqueTerminals?.map((itm) => {
                 return (
                   <div
@@ -574,9 +635,9 @@ const Search = () => {
                       value={itm}
                       onChange={handleRadioChange3}
                     />
-                       <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
+                    <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -595,9 +656,9 @@ const Search = () => {
                       value={itm}
                       onChange={handleRadioChange4}
                     />
-                       <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
+                    <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -632,25 +693,15 @@ const Search = () => {
                           <h1>
                             {item?.service?.slot_op_name
                               ? item?.service?.slot_op_name?.charAt(0) +
-                              item?.service.slot_op_name
-                                ?.slice(1)
-                                .toLowerCase()
+                                item?.service.slot_op_name
+                                  ?.slice(1)
+                                  .toLowerCase()
                               : "Service Name"}
                           </h1>
                         </div>
                         <div className="sourcedest">
-                          <p>
-                            {item.pol
-                              ? item.pol?.charAt(0) +
-                              item?.pol?.slice(1)?.toLowerCase()
-                              : "Pol"}
-                          </p>
-                          <p>
-                            {item.pod
-                              ? item.pod?.charAt(0) +
-                              item?.pod?.slice(1)?.toLowerCase()
-                              : "Pod"}
-                          </p>
+                          <p>{item.pol ? item.pol?.toUpperCase() : "Pol"}</p>
+                          <p>{item.pod ? item.pod?.toUpperCase() : "Pod"}</p>
                         </div>
                         <div className="hori">
                           <div className="outlined-circle"></div>
@@ -675,7 +726,7 @@ const Search = () => {
                         <div className="first">
                           <div className="righter"></div>
                           <div className="validity">
-                            <p className="title">Validity:</p>
+                            <p className="title">Validity: </p>
                             <p className="date">{item.attribute.VALIDITY}</p>
                           </div>
                           <div className="expiry">
@@ -683,7 +734,9 @@ const Search = () => {
                             <p className="date">{item.attribute.datetime}</p>
                           </div>
                           <button className="gradBtn">
-                            {Number(item.attribute.LDN_20ft)}
+                            {Number(item.attribute.LDN_20ft) !== 0
+                              ? Number(item.attribute.LDN_20ft)
+                              : "Request Amount"}
                           </button>
                           {user?.roles == "Editer" && (
                             <>
@@ -782,9 +835,15 @@ const Search = () => {
               >
                 Pervious
               </button>
+
+              <p>
+                {count / 10} / {(data.length / 10).toFixed()}{" "}
+              </p>
+
               <button
-                className={`btn btn-primary ${count < data.length ? "" : "disabled"
-                  }`}
+                className={`btn btn-primary ${
+                  count < data.length ? "" : "disabled"
+                }`}
                 onClick={() => {
                   setCount(count + 10);
                 }}
@@ -800,4 +859,3 @@ const Search = () => {
 };
 
 export default Search;
-  
