@@ -20,6 +20,7 @@ const Search = () => {
   const [month, setMonth] = useState("April");
   const [count, setCount] = useState(10);
   const [year, setYear] = useState(2023);
+  const [tempResult, setTempResult] = useState();
   const [filteredPolsPods  ,setFilteredPolsPods] = useState()
   const months = [
     { value: "January", label: "January" },
@@ -83,6 +84,7 @@ const Search = () => {
 
   const fetchData = async () => {
     try {
+      setLoader(true);
       const response = await axios.get("http://20.236.136.145/getAllData");
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.attribute.LDN_20ft);
@@ -127,6 +129,7 @@ const Search = () => {
       });
 
       setFilteredPolsPods(filteredOptions)
+      setTempResult(sortedData)
       setData(sortedData);
       setResult(sortedData);
       setLoader(false);
@@ -151,7 +154,9 @@ const Search = () => {
         list?.push(itm?.service?.slot_op_name);
       }
     });
-    return list;
+
+    const sortedNames = list.sort((a, b) => a.localeCompare(b));
+    return sortedNames;
   }, [result]);
 
   //Terminal unique dynamic list
@@ -162,7 +167,9 @@ const Search = () => {
         list?.push(itm?.terminal);
       }
     });
-    return list;
+    const sortedNames = list.sort((a, b) => a.localeCompare(b));
+    const filteredArray = sortedNames.filter(item => typeof item === 'string' && /^[a-zA-Z]+$/.test(item));
+    return filteredArray;
   }, [result]);
 
   //Slot Name unique dynamic list
@@ -173,7 +180,8 @@ const Search = () => {
         list?.push(itm?.Slot_term);
       }
     });
-    return list;
+    const sortedNames = list.sort((a, b) => a.localeCompare(b));
+    return sortedNames;
   }, [result]);
 
   const getUser = () => {
@@ -182,9 +190,9 @@ const Search = () => {
   };
 
   const handleSerach = () => {
-    console.log(result);
     setLoader(true);
-    const customdata = result;
+    const customdata = tempResult;
+    console.log(tempResult)
     const filteredData = customdata.filter((item) => {
       const monthDate2 = getFormattedDate(month);
       var date = item.attribute.VALIDITY;
@@ -196,7 +204,6 @@ const Search = () => {
       if (item.pod !== to) {
         return false;
       }
-
       if (
         new Date(
           item?.attribute?.EFFECTIVE_DATE?.split(".")[2]
@@ -710,7 +717,7 @@ const Search = () => {
                           </div>
                           <div className="outlined-circle"></div>
                           <div class="my-div2 dd22">
-                            <p>4 Days</p>
+                            {/* <p>4 Days</p> */}
                             <img src="/ship.png" className="shipimage" />
                             <hr />
                           </div>
@@ -825,33 +832,38 @@ const Search = () => {
               );
             })
           )}
-          {data?.length > 10 && (
-            <div className="pagination__container">
-              <button
-                className={`btn btn-primary ${count > 11 ? "" : "disabled"}`}
-                onClick={() => {
-                  setCount(count - 10);
-                }}
-              >
-                Pervious
-              </button>
 
-              <p>
-                {count / 10} / {(data.length / 10).toFixed()}{" "}
-              </p>
+            {
+              !loader &&    data?.length > 10 && (
+                <div className="pagination__container">
+                  <button
+                    className={`btn btn-primary ${count > 11 ? "" : "disabled"}`}
+                    onClick={() => {
+                      setCount(count - 10);
+                    }}
+                  >
+                    Pervious
+                  </button>
+    
+                  <p>
+                    {count / 10} / {(data.length / 10).toFixed()}{" "}
+                  </p>
+    
+                  <button
+                    className={`btn btn-primary ${
+                      count < data.length ? "" : "disabled"
+                    }`}
+                    onClick={() => {
+                      setCount(count + 10);
+                    }}
+                  >
+                    Next
+                  </button>
+                </div>
+              )
+            }
 
-              <button
-                className={`btn btn-primary ${
-                  count < data.length ? "" : "disabled"
-                }`}
-                onClick={() => {
-                  setCount(count + 10);
-                }}
-              >
-                Next
-              </button>
-            </div>
-          )}
+       
         </div>
       </div>
     </div>
