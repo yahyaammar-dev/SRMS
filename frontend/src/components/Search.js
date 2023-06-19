@@ -13,11 +13,11 @@ const Search = () => {
   const [loader, setLoader] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
-  const [from, setFrom] = useState("JEA");
-  const [to, setTo] = useState("BND");
+  const [from, setFrom] = useState("JEBEL ALI");
+  const [to, setTo] = useState("BANDAR ABBAS");
   const navigate = useNavigate();
   const [slotTerm, setSlotTerm] = useState([]);
-  const [month, setMonth] = useState("April");
+  const [month, setMonth] = useState("June");
   const [count, setCount] = useState(10);
   const [year, setYear] = useState(2023);
   const [tempResult, setTempResult] = useState();
@@ -91,6 +91,7 @@ const Search = () => {
     try {
       setLoader(true);
       const response = await axios.get("http://20.236.136.145/getAllData");
+      console.log(response)
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.attribute.LDN_20ft);
         const priceB = parseInt(b.attribute.LDN_20ft);
@@ -102,39 +103,37 @@ const Search = () => {
       const pols = sortedData.map((item) => item.pol);
 
       const options = [
-        { value: "JEBEL ALI", label: "Jebel Ali" },
-        { value: "BUSHEHR", label: "Bushehr" },
-        { value: "BANDAR IMAM KHOMEINI", label: "Bandar Imam Khomeini" },
-        { value: "MOMBASA", label: "Mombasa" },
         { value: "Assalouyeh", label: "Assalouyeh" },
-        { value: "KHORRAM SHAHR", label: "Khorram Shahr" },
         { value: "BANDAR ABBAS", label: "Bandar Abbas" },
-        { value: "NHAVA SHEVA", label: "Nhava Sheva" },
-        { value: "MUNDRA", label: "Mundra" },
-        { value: "KANDLA", label: "Kandla" },
-        { value: "SOHAR", label: "Sohar" },
+        { value: "BANDAR IMAM KHOMEINI", label: "Bandar Imam Khomeini" },
         { value: "BAHRAIN", label: "Bahrain" },
-        { value: "SHUWAIKH", label: "Shuwaikh" },
-        { value: "UMM QSAR", label: "Umm Qsar" },
-        { value: "PORT KLANG", label: "Port Klang" },
-        { value: "COCHIN", label: "Cochin" },
+        { value: "BUSHEHR", label: "Bushehr" },
         { value: "CHENNAI", label: "Chennai" },
-        { value: "COLOMBO", label: "Colombo" },
-        { value: "MALE", label: "Male" },
-        { value: "JEDDAH", label: "Jeddah" },
         { value: "CHITTAGONG", label: "Chittagong" },
-        { value: "LAEM CHABANG", label: "Laem Chabang" },
-        { value: "SHANGHAI", label: "Shanghai" },
-        { value: "QINGDAO", label: "Qingdao" },
+        { value: "COCHIN", label: "Cochin" },
+        { value: "COLOMBO", label: "Colombo" },
         { value: "HAMAD", label: "Hamad" },
         { value: "IND", label: "IND" },
+        { value: "JEBEL ALI", label: "Jebel Ali" },
+        { value: "JEDDAH", label: "Jeddah" },
+        { value: "KANDLA", label: "Kandla" },
+        { value: "KHORRAM SHAHR", label: "Khorram Shahr" },
+        { value: "LAEM CHABANG", label: "Laem Chabang" },
+        { value: "MALE", label: "Male" },
+        { value: "MOMBASA", label: "Mombasa" },
+        { value: "MUNDRA", label: "Mundra" },
+        { value: "NHAVA SHEVA", label: "Nhava Sheva" },
+        { value: "PORT KLANG", label: "Port Klang" },
+        { value: "QINGDAO", label: "Qingdao" },
+        { value: "SHANGHAI", label: "Shanghai" },
+        { value: "SHUWAIKH", label: "Shuwaikh" },
+        { value: "SOHAR", label: "Sohar" },
+        { value: "UMM QSAR", label: "Umm Qsar" }
       ];
-
-      const filteredOptions = options.filter((option) => {
-        return pols.includes(option.value) || pods.includes(option.value);
-      });
-
-      setFilteredPolsPods(filteredOptions);
+      
+      console.log(sortedData)
+    
+      setFilteredPolsPods(options);
       setTempResult(sortedData);
       setData(sortedData);
       setResult(sortedData);
@@ -197,7 +196,7 @@ const Search = () => {
     setUser(storedUser);
   };
 
-  const handleSerach = () => {
+  const handleSearch = () => {
     setLoader(true);
     const customdata = tempResult;
     const filteredData = customdata.filter((item) => {
@@ -616,7 +615,7 @@ const Search = () => {
             <img
               src="/serac.jpg"
               className="serachImage"
-              onClick={handleSerach}
+              onClick={handleSearch}
             />
           </div>
         </div>
@@ -824,7 +823,7 @@ const Search = () => {
                             <p>Port Of Origin</p>
                           </div>
                           <div className="second">
-                            <p>{item.pol ? item.pol : "JEA"} </p>
+                            <p>{item.pol ? item.pol : "JEBEL ALI"} </p>
                             <div>
                               <img src="/drop.png" />
                             </div>
