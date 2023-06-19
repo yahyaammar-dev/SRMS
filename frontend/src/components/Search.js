@@ -341,7 +341,7 @@ const Search = () => {
     } else if (value == "DRAGON MARITIMO SEA") {
       return "/dragon.jpeg";
     } else if (value == "Doris") {
-      return "/Doris.avif";
+      return "/Doris.png";
     } else if (value == "EMIRATES SHIPPING") {
       return "/emirates.png";
     } else if (value == "HLL GLOBAL") {
