@@ -248,7 +248,8 @@ class ExcelController extends Controller
                 'T_S_or_diect' => $shipment->T_S_or_diect,
                 'Slot_term' => $shipment->Slot_term,
                 'service' => $service,
-                'attribute' => $attribute
+                'attribute' => $attribute,
+                'transit_time' => $shipment->transit_time
             ];
 
             $data[] = $shipmentData;

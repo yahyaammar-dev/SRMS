@@ -21,12 +21,14 @@ const Search = () => {
   const [count, setCount] = useState(10);
   const [year, setYear] = useState(2023);
   const [tempResult, setTempResult] = useState();
-  const [filteredPolsPods  ,setFilteredPolsPods] = useState()
+  const [filteredPolsPods, setFilteredPolsPods] = useState();
   const months = [
     { value: "January", label: "January" },
     { value: "February", label: "February" },
     { value: "March", label: "March" },
     { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
   ];
 
   const monthMap = {
@@ -34,6 +36,9 @@ const Search = () => {
     February: "02",
     March: "03",
     April: "04",
+    March: "04",
+    May: "05",
+    June: "06",
   };
 
   const years = [
@@ -97,39 +102,40 @@ const Search = () => {
       const pols = sortedData.map((item) => item.pol);
 
       const options = [
-        { value: "ABU DHABI", label: "AbuDhabi" },
-        { value: "Assalouyeh", label: "Assalouyeh" },
-        { value: "BANDAR IMAM KHOMEINI", label: "BandarImamKhomeini" },
-        { value: "BND", label: "Bnd" },
+        { value: "JEBEL ALI", label: "Jebel Ali" },
         { value: "BUSHEHR", label: "Bushehr" },
-        { value: "CASABLANCA", label: "Casablanca" },
-        { value: "CHENNAI", label: "Chennai" },
-        { value: "COCHIN", label: "Cochin" },
-        { value: "COLOMBO", label: "Colombo" },
-        { value: "DAR ES SALAM", label: "DarEsSalam" },
-        { value: "HAMAD", label: "Hamad" },
-        { value: "HAZIRA", label: "Hazira" },
-        { value: "IRAN", label: "Iran" },
-        { value: "JEA", label: "JabelAli" },
-        { value: "KHORRAM SHAHR", label: "KhorramShahr" },
-        { value: "KANDLA", label: "Kandla" },
+        { value: "BANDAR IMAM KHOMEINI", label: "Bandar Imam Khomeini" },
         { value: "MOMBASA", label: "Mombasa" },
+        { value: "Assalouyeh", label: "Assalouyeh" },
+        { value: "KHORRAM SHAHR", label: "Khorram Shahr" },
+        { value: "BANDAR ABBAS", label: "Bandar Abbas" },
+        { value: "NHAVA SHEVA", label: "Nhava Sheva" },
         { value: "MUNDRA", label: "Mundra" },
-        { value: "NHAVA SHEVA", label: "NhavaSheva" },
-        { value: "PIPAVA", label: "Pipava" },
-        { value: "PORT KLANG", label: "PortKlang" },
-        { value: "SHEKOU", label: "Shekou" },
+        { value: "KANDLA", label: "Kandla" },
+        { value: "SOHAR", label: "Sohar" },
+        { value: "BAHRAIN", label: "Bahrain" },
+        { value: "SHUWAIKH", label: "Shuwaikh" },
+        { value: "UMM QSAR", label: "Umm Qsar" },
+        { value: "PORT KLANG", label: "Port Klang" },
+        { value: "COCHIN", label: "Cochin" },
+        { value: "CHENNAI", label: "Chennai" },
+        { value: "COLOMBO", label: "Colombo" },
+        { value: "MALE", label: "Male" },
+        { value: "JEDDAH", label: "Jeddah" },
+        { value: "CHITTAGONG", label: "Chittagong" },
+        { value: "LAEM CHABANG", label: "Laem Chabang" },
         { value: "SHANGHAI", label: "Shanghai" },
-        { value: "SINGAPORE", label: "Singapore" },
-        { value: "TANGER MED", label: "TangerMed" },
+        { value: "QINGDAO", label: "Qingdao" },
+        { value: "HAMAD", label: "Hamad" },
+        { value: "IND", label: "IND" },
       ];
 
-      const filteredOptions = options.filter(option => {
+      const filteredOptions = options.filter((option) => {
         return pols.includes(option.value) || pods.includes(option.value);
       });
 
-      setFilteredPolsPods(filteredOptions)
-      setTempResult(sortedData)
+      setFilteredPolsPods(filteredOptions);
+      setTempResult(sortedData);
       setData(sortedData);
       setResult(sortedData);
       setLoader(false);
@@ -168,7 +174,9 @@ const Search = () => {
       }
     });
     const sortedNames = list.sort((a, b) => a.localeCompare(b));
-    const filteredArray = sortedNames.filter(item => typeof item === 'string' && /^[a-zA-Z]+$/.test(item));
+    const filteredArray = sortedNames.filter(
+      (item) => typeof item === "string" && /^[a-zA-Z]+$/.test(item)
+    );
     return filteredArray;
   }, [result]);
 
@@ -192,7 +200,6 @@ const Search = () => {
   const handleSerach = () => {
     setLoader(true);
     const customdata = tempResult;
-    console.log(tempResult)
     const filteredData = customdata.filter((item) => {
       const monthDate2 = getFormattedDate(month);
       var date = item.attribute.VALIDITY;
@@ -217,6 +224,7 @@ const Search = () => {
       }
       return true;
     });
+    console.log(filteredData);
     setData(filteredData);
     setResult(filteredData);
     setLoader(false);
@@ -500,12 +508,21 @@ const Search = () => {
           src="/logo.png"
           className="logo mainlogo"
           onClick={() => {
-            console.log("hello world");
             fetchData();
           }}
         />
         <div>
           <ul className="menu">
+            <li>
+              <button
+                className="mybtn"
+                onClick={() => {
+                  fetchData();
+                }}
+              >
+               Reset Filters
+              </button>
+            </li>
             {user?.roles == "Editer" && (
               <>
                 <li>
@@ -627,27 +644,30 @@ const Search = () => {
               })}
             </div>
           </div>
-          <div className="innerFilter ">
-            <h1 className="innerFilterh1">Terminal</h1>
-            <div className="filters--content">
-              {uniqueTerminals?.map((itm) => {
-                return (
-                  <div
-                    className="item"
-                    style={{ boxShadow: "none", margin: "0", padding: 0 }}
-                  >
-                    <input
-                      type="checkbox"
-                      name="term"
-                      value={itm}
-                      onChange={handleRadioChange3}
-                    />
-                    <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
-                  </div>
-                );
-              })}
+          {uniqueTerminals.length > 0 && (
+            <div className="innerFilter ">
+              <h1 className="innerFilterh1">Terminal</h1>
+              <div className="filters--content">
+                {uniqueTerminals?.map((itm) => {
+                  return (
+                    <div
+                      className="item"
+                      style={{ boxShadow: "none", margin: "0", padding: 0 }}
+                    >
+                      <input
+                        type="checkbox"
+                        name="term"
+                        value={itm}
+                        onChange={handleRadioChange3}
+                      />
+                      <p>{itm.charAt(0) + itm.slice(1).toLowerCase()}</p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Term</h1>
             <div>
@@ -717,7 +737,7 @@ const Search = () => {
                           </div>
                           <div className="outlined-circle"></div>
                           <div class="my-div2 dd22">
-                            {/* <p>4 Days</p> */}
+                            <p>{item?.transit_time}</p>
                             <img src="/ship.png" className="shipimage" />
                             <hr />
                           </div>
@@ -833,37 +853,33 @@ const Search = () => {
             })
           )}
 
-            {
-              !loader &&    data?.length > 10 && (
-                <div className="pagination__container">
-                  <button
-                    className={`btn btn-primary ${count > 11 ? "" : "disabled"}`}
-                    onClick={() => {
-                      setCount(count - 10);
-                    }}
-                  >
-                    Pervious
-                  </button>
-    
-                  <p>
-                    {count / 10} / {(data.length / 10).toFixed()}{" "}
-                  </p>
-    
-                  <button
-                    className={`btn btn-primary ${
-                      count < data.length ? "" : "disabled"
-                    }`}
-                    onClick={() => {
-                      setCount(count + 10);
-                    }}
-                  >
-                    Next
-                  </button>
-                </div>
-              )
-            }
+          {!loader && data?.length > 10 && (
+            <div className="pagination__container">
+              <button
+                className={`btn btn-primary ${count > 11 ? "" : "disabled"}`}
+                onClick={() => {
+                  setCount(count - 10);
+                }}
+              >
+                Pervious
+              </button>
 
-       
+              <p>
+                {count / 10} / {(data.length / 10).toFixed()}{" "}
+              </p>
+
+              <button
+                className={`btn btn-primary ${
+                  count < data.length ? "" : "disabled"
+                }`}
+                onClick={() => {
+                  setCount(count + 10);
+                }}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
