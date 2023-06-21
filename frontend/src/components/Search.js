@@ -90,7 +90,7 @@ const Search = () => {
   const fetchData = async () => {
     try {
       setLoader(true);
-      const response = await axios.get("http://20.236.136.145/getAllData");
+      const response = await axios.get("http://localhost:8000/getAllData");
       console.log(response)
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.attribute.LDN_20ft);
@@ -161,7 +161,10 @@ const Search = () => {
     });
 
     const sortedNames = list.sort((a, b) => a.localeCompare(b));
-    return sortedNames;
+
+    const uniqueStrings = Array.from(new Set(sortedNames));
+    console.log(uniqueStrings)
+    return uniqueStrings;
   }, [result]);
 
   //Terminal unique dynamic list

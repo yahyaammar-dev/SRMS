@@ -41,7 +41,7 @@ class ExcelController extends Controller
             $sheet        = $spreadsheet->getActiveSheet();
             $row_limit    = $sheet->getHighestDataRow();
             $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range(3, $row_limit);
+            $row_range    = range(3, 830);
             $column_range = range('F', $column_limit);
             $startcount = 3;
             $data = array();
@@ -57,35 +57,33 @@ class ExcelController extends Controller
                     'Slot_Term' => $sheet->getCell('H' . $row)->getValue(),
                     'LDN_20ft' => $sheet->getCell('I' . $row)->getValue(),
                     'LDN_40HC' => $sheet->getCell('J' . $row)->getValue(),
-                    'LDN_EWRI_TEU' => $sheet->getCell('k' . $row)->getValue(),
+                    'LDN_EWRI_TEU' => $sheet->getCell('K' . $row)->getValue(),
                     'LDN_BAF_TEU' => $sheet->getCell('L' . $row)->getValue(),
-                    'ECR_PER_TEU' => $sheet->getCell('N' . $row)->getValue(),
-                    'Flexi_Sur_TEU' => $sheet->getCell('O' . $row)->getValue(),
-                    'DG_Sur_20FT' => $sheet->getCell('P' . $row)->getValue(),
-                    'DG_Sur_40FT' => $sheet->getCell('Q' . $row)->getValue(),
-                    'DG_CLASS_1_PER_TEU' => $sheet->getCell('R' . $row)->getValue(),
-                    'REEFER_SUR' => $sheet->getCell('S' . $row)->getValue(),
+                    'ECR_PER_TEU' => $sheet->getCell('M' . $row)->getValue(),
+                    'Flexi_Sur_TEU' => $sheet->getCell('N' . $row)->getValue(),
+                    'DG_Sur_20FT' => $sheet->getCell('O' . $row)->getValue(),
+                    'DG_Sur_40FT' => $sheet->getCell('P' . $row)->getValue(),
+                    'DG_CLASS_1_PER_TEU' => $sheet->getCell('Q' . $row)->getValue(),
+                    'REEFER_SUR' => $sheet->getCell('R' . $row)->getValue(),
                     // 'DTHC_NON_HAZ_20FT' => $sheet->getCell('S' . $row)->getValue(),
                     // 'DTHC_NON_HAZ_40FT' => $sheet->getCell('T' . $row)->getValue(),
                     // 'DTHC_HAZ_20FT' => $sheet->getCell('U' . $row)->getValue(),
-                    'TANK_SCHARGE_TUE' => $sheet->getCell('T' . $row)->getValue(),
+                    'TANK_SCHARGE_TUE' => $sheet->getCell('W' . $row)->getValue(),
                     // 'GRI_TUE' => $sheet->getCell('X' . $row)->getValue(),
-                    'ROB_FEE_TUE' => $sheet->getCell('U' . $row)->getValue(),
-                    'MT_20ft' => $sheet->getCell('V' . $row)->getValue(),
-                    'MT_40HC' => $sheet->getCell('W' . $row)->getValue(),
-                    'MT_EWRI_TEU' => $sheet->getCell('X' . $row)->getValue(),
-                    'MT_BAF_TEU' => $sheet->getCell('Y' . $row)->getValue(),
-                    'TRANSIT_TIME' => $sheet->getCell('Z'. $row)->getValue(),
+                    // 'ROB_FEE_TUE' => $sheet->getCell('U' . $row)->getValue(),
+                    'MT_20ft' => $sheet->getCell('Z' . $row)->getValue(),
+                    'MT_40HC' => $sheet->getCell('AA' . $row)->getValue(),
+                    'MT_EWRI_TEU' => $sheet->getCell('AB' . $row)->getValue(),
+                    'MT_BAF_TEU' => $sheet->getCell('AB' . $row)->getValue(),
+                    'TRANSIT_TIME' => $sheet->getCell('AD'. $row)->getValue(),
                     // 'MT_TANK_SCHARGE' => $sheet->getCell('AD' . $row)->getValue(),
-                    'EFFECTIVE_DATE' => $sheet->getCell('AA' . $row)->getValue(),
-                    'VALIDTY' => $sheet->getCell('AD' . $row)->getValue(),
-                    'REMARKS' => $sheet->getCell('AC' . $row)->getValue(),
+                    'EFFECTIVE_DATE' => $sheet->getCell('AE' . $row)->getValue(),
+                    'VALIDTY' => $sheet->getCell('AF' . $row)->getValue(),
+                    'REMARKS' => $sheet->getCell('AG' . $row)->getValue(),
                 ];
                 $startcount++;
             }
             $firstItem = $data[0];
-
-      
 
             foreach ($data as $item) {
                 if (is_string($item['LDN_20ft']) && preg_match('/^=.*$/', $item['LDN_20ft'])) {
@@ -139,7 +137,7 @@ class ExcelController extends Controller
                     // 'DTHC_NON_HAZ_40FT' => $item['DTHC_NON_HAZ_40FT'],
                     'TANK_S_CHARGE_TUE' => $item['TANK_SCHARGE_TUE'],
                     // 'GRI_TUE' => $item['GRI_TUE'],
-                    'ROB_FEE_TUE' => $item['ROB_FEE_TUE'],
+                    // 'ROB_FEE_TUE' => $item['ROB_FEE_TUE'],
                     'MT_20ft' => $item['MT_20ft'],
                     'MT_40HC' => $item['MT_40HC'],
                     'MT_EWRI_TEU' => $item['MT_EWRI_TEU'],
@@ -168,6 +166,8 @@ class ExcelController extends Controller
                     'attribute_id' => $attribute->id,
                     'transit_time' => $item['TRANSIT_TIME']
                 ]);
+
+
 
                 // extra
                 $port = Port::create([
