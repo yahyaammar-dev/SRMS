@@ -75,7 +75,7 @@ class ExcelController extends Controller
                     'MT_40HC' => $sheet->getCell('AA' . $row)->getValue(),
                     'MT_EWRI_TEU' => $sheet->getCell('AB' . $row)->getValue(),
                     'MT_BAF_TEU' => $sheet->getCell('AB' . $row)->getValue(),
-                    'TRANSIT_TIME' => $sheet->getCell('AD'. $row)->getValue(),
+                    'TRANSIT_TIME' => $sheet->getCell('AD' . $row)->getValue(),
                     // 'MT_TANK_SCHARGE' => $sheet->getCell('AD' . $row)->getValue(),
                     'EFFECTIVE_DATE' => $sheet->getCell('AE' . $row)->getValue(),
                     'VALIDTY' => $sheet->getCell('AF' . $row)->getValue(),
@@ -230,6 +230,33 @@ class ExcelController extends Controller
         $this->ExportExcel($data_array);
     }
 
+    public function getFirstData()
+    {
+        $shipments = Shipment::take(20)->get();
+        $data = [];
+        foreach ($shipments as $shipment) {
+            $service = Service::find($shipment->service_id);
+            $attribute = Attribute::find($shipment->attribute_id);
+
+            $shipmentData = [
+                'shipment_id' => $shipment->id,
+                'pod' => $shipment->pod,
+                'pol' => $shipment->pol,
+                'terminal' => $shipment->terminal,
+                'volume_per_teu' => $shipment->volume_per_teu,
+                'T_S_or_diect' => $shipment->T_S_or_diect,
+                'Slot_term' => $shipment->Slot_term,
+                'service' => $service,
+                'attribute' => $attribute,
+                'transit_time' => $shipment->transit_time
+            ];
+
+            $data[] = $shipmentData;
+        }
+
+        return response()->json($data);
+    }
+
 
     public function getData()
     {
@@ -353,7 +380,8 @@ class ExcelController extends Controller
     }
 
 
-    public function editData(Request $req) {
+    public function editData(Request $req)
+    {
         $shipment = Shipment::find($req->id);
         if (!$shipment) {
             return response()->json(['message' => 'Shipment not found'], 404);

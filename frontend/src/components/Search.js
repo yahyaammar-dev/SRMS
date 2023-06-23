@@ -21,6 +21,7 @@ const Search = () => {
   const [count, setCount] = useState(10);
   const [year, setYear] = useState(2023);
   const [tempResult, setTempResult] = useState();
+  const [firstData, setFirstData] = useState();
   const [filteredPolsPods, setFilteredPolsPods] = useState();
   const months = [
     { value: "January", label: "January" },
@@ -143,7 +144,67 @@ const Search = () => {
     }
   };
 
+
+  const fetchFirstData = async () => {
+    try {
+      setLoader(true);
+      const response = await axios.get("http://20.236.136.145/getFirstData");
+      console.log(response)
+      const sortedData = response?.data?.sort((a, b) => {
+        const priceA = parseInt(a.attribute.LDN_20ft);
+        const priceB = parseInt(b.attribute.LDN_20ft);
+
+        return priceA - priceB;
+      });
+
+      const pods = sortedData.map((item) => item.pod);
+      const pols = sortedData.map((item) => item.pol);
+
+      const options = [
+        { value: "Assalouyeh", label: "Assalouyeh" },
+        { value: "BANDAR ABBAS", label: "Bandar Abbas" },
+        { value: "BANDAR IMAM KHOMEINI", label: "Bandar Imam Khomeini" },
+        { value: "BAHRAIN", label: "Bahrain" },
+        { value: "BUSHEHR", label: "Bushehr" },
+        { value: "CHENNAI", label: "Chennai" },
+        { value: "CHITTAGONG", label: "Chittagong" },
+        { value: "COCHIN", label: "Cochin" },
+        { value: "COLOMBO", label: "Colombo" },
+        { value: "HAMAD", label: "Hamad" },
+        { value: "IND", label: "IND" },
+        { value: "JEBEL ALI", label: "Jebel Ali" },
+        { value: "JEDDAH", label: "Jeddah" },
+        { value: "KANDLA", label: "Kandla" },
+        { value: "KHORRAM SHAHR", label: "Khorram Shahr" },
+        { value: "LAEM CHABANG", label: "Laem Chabang" },
+        { value: "MALE", label: "Male" },
+        { value: "MOMBASA", label: "Mombasa" },
+        { value: "MUNDRA", label: "Mundra" },
+        { value: "NHAVA SHEVA", label: "Nhava Sheva" },
+        { value: "PORT KLANG", label: "Port Klang" },
+        { value: "QINGDAO", label: "Qingdao" },
+        { value: "SHANGHAI", label: "Shanghai" },
+        { value: "SHUWAIKH", label: "Shuwaikh" },
+        { value: "SOHAR", label: "Sohar" },
+        { value: "UMM QSAR", label: "Umm Qsar" }
+      ];
+      
+      console.log(sortedData)
+    
+      setFilteredPolsPods(options);
+      // setTempResult(sortedData);
+      setFirstData(sortedData)
+      // setData(sortedData);
+      setResult(sortedData);
+      setLoader(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
   useEffect(() => {
+    fetchFirstData();
     fetchData();
     getUser();
   }, []);
@@ -703,8 +764,7 @@ const Search = () => {
                 <span class="sr-only"></span>
               </div>
             </div>
-          ) : (
-            data?.slice(count - 10, count).map((item, index) => {
+          ) : data?.length > 10 ?  data?.slice(count - 10, count).map((item, index) => {
               const logo = getCompanyLogo(item?.service?.slot_op_name);
               return (
                 <>
@@ -853,7 +913,157 @@ const Search = () => {
                 </>
               );
             })
-          )}
+            :
+             firstData?.slice(count - 10, count).map((item, index) => {
+              const logo = getCompanyLogo(item?.service?.slot_op_name);
+              return (
+                <>
+                  <div className="outerContainer">
+                    <div className="item">
+                      <div className="itemFirst">
+                        <div className="complogocontainer">
+                          {logo ? (
+                            <img src={logo} className="company-name" />
+                          ) : (
+                            <span className="non-logo">
+                              {item?.service?.slot_op_name?.charAt(0)}
+                            </span>
+                          )}
+                          <h1>
+                            {item?.service?.slot_op_name
+                              ? item?.service?.slot_op_name?.charAt(0) +
+                                item?.service.slot_op_name
+                                  ?.slice(1)
+                                  .toLowerCase()
+                              : "Service Name"}
+                          </h1>
+                        </div>
+                        <div className="sourcedest">
+                          <p>{item.pol ? item.pol?.toUpperCase() : "Pol"}</p>
+                          <p>{item.pod ? item.pod?.toUpperCase() : "Pod"}</p>
+                        </div>
+                        <div className="hori">
+                          <div className="outlined-circle"></div>
+                          <div class="my-div2">
+                            <hr />
+                          </div>
+                          <div className="outlined-circle"></div>
+                          <div class="my-div2 dd22">
+                            <p>{item?.transit_time}</p>
+                            <img src="/ship.png" className="shipimage" />
+                            <hr />
+                          </div>
+                          <div className="outlined-circle"></div>
+                          <div class="my-div2">
+                            <hr />
+                          </div>
+                          <div className="outlined-circle"></div>
+                        </div>
+                      </div>
+
+                      <div className="itemSecond">
+                        <div className="first">
+                          <div className="righter"></div>
+                          <div className="validity">
+                            <p className="title">Validity: </p>
+                            <p className="date">{item.attribute.VALIDITY}</p>
+                          </div>
+                          <div className="expiry">
+                            <p className="title">Expiry:</p>
+                            <p className="date">{item.attribute.datetime}</p>
+                          </div>
+                          <button className="gradBtn">
+                            {Number(item.attribute.LDN_20ft) !== 0
+                              ? Number(item.attribute.LDN_20ft)
+                              : "Request Amount"}
+                          </button>
+                          {user?.roles == "Editer" && (
+                            <>
+                              <div className="flexer">
+                                <button
+                                  className="deletebtn btn2"
+                                  onClick={() => {
+                                    navigate(`editData/${item.shipment_id}`);
+                                  }}
+                                  style={{
+                                    background: "#bdffcc",
+                                    color: "black",
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="deletebtn btn2"
+                                  onClick={() => handleDelete(item)}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                        <div
+                          className="second dropsub"
+                          onClick={() => handleSubItemToggle(index)}
+                        >
+                          <img src="/drop.png" />
+                        </div>
+                      </div>
+                    </div>
+                    {subItemOpen[index] && (
+                      <div className="itemSubItem">
+                        <div className="subItem">
+                          <div className="first">
+                            <input type="checkbox" disabled />
+                            <div>
+                              <img src="/3.png" />
+                            </div>
+                            <p>Delivery</p>
+                          </div>
+                          <div className="second">
+                            <p>Not available</p>
+                            <div>
+                              <img src="/drop.png" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="subItem">
+                          <div className="first">
+                            <input type="checkbox" disabled />
+                            <div>
+                              <img src="/1.png" />
+                            </div>
+                            <p>Port Of Origin</p>
+                          </div>
+                          <div className="second">
+                            <p>{item.pol ? item.pol : "JEBEL ALI"} </p>
+                            <div>
+                              <img src="/drop.png" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="subItem">
+                          <div className="first">
+                            <input type="checkbox" disabled />
+                            <div>
+                              <img src="/2.png" />
+                            </div>
+                            <p>Port Of Delivery</p>
+                          </div>
+                          <div className="second">
+                            <p>{item.pod}</p>
+                            <div>
+                              <img src="/drop.png" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })
+          }
 
           {!loader && data?.length > 10 && (
             <div className="pagination__container">
