@@ -230,6 +230,7 @@ class ExcelController extends Controller
         $this->ExportExcel($data_array);
     }
 
+    
     public function getFirstData()
     {
         $shipments = Shipment::take(20)->get();

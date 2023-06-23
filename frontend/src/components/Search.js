@@ -145,6 +145,7 @@ const Search = () => {
   };
 
 
+  
   const fetchFirstData = async () => {
     try {
       setLoader(true);

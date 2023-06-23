@@ -26,6 +26,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 
 Route::get('/getAllData', [ExcelController::class, 'getData']);
+
 Route::get('/getFirstData', [ExcelController::class, 'getFirstData']);
 
 Route::post('/addData', [ExcelController::class, 'addData']);
