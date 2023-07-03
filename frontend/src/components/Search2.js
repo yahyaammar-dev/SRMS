@@ -723,7 +723,7 @@ const Search2 = () => {
             </div>
           </div>
 
-          <div className="innerFilter">
+          {/* <div className="innerFilter">
             <h1 className="innerFilterh1">Containers</h1>
             <div className="item"
                     style={{ boxShadow: "none", margin: "0", padding: 0 }}>
@@ -785,7 +785,7 @@ const Search2 = () => {
               />
               <p>Iso Tank MT</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="listing">
           <div className="firstItem">
