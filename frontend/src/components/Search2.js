@@ -92,7 +92,7 @@ const Search2 = () => {
   const fetchData = async () => {
  
       setLoader(true);
-      // const response = await axios.get("http://20.236.136.145/getAllData");
+    //   const response = await axios.get("http://20.236.136.145/getAllData");
       const response = await axios.get("http://localhost:8000/combinedData");
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.LDN_20ft);

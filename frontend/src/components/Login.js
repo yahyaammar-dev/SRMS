@@ -82,7 +82,7 @@ const Login = () => {
                   </p> */}
                   <button
                     type="submit"
-                    class="btn btn-primary btn-block mb-4 px-5 w-100"
+                    class="btn btn-primary btn-block mb-4 px-5 w-100  bg-primary"
                   >
                     Login
                   </button>
