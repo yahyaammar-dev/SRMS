@@ -92,7 +92,7 @@ const Search2 = () => {
   const fetchData = async () => {
  
       setLoader(true);
-    //   const response = await axios.get("http://20.236.136.145/getAllData");
+    //   const response = await axios.get("http://20.236.136.145:53001/getAllData");
       const response = await axios.get("http://20.236.136.145:53001/combinedData");
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.LDN_20ft);
@@ -233,7 +233,7 @@ const Search2 = () => {
 
   const handleDelete = async (item) => {
     try {
-      const response = await axios.post("http://20.236.136.145/deleteData", {
+      const response = await axios.post("http://20.236.136.145:53001/deleteData", {
         data: item.shipment_id,
       });
       alert("Data Delte Successfully");
