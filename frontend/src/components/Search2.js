@@ -703,7 +703,7 @@ const Search2 = () => {
 
           <div className="innerFilter ">
             <h1 className="innerFilterh1">Slot Term</h1>
-            <div>
+            <div className="filters--content">
               {uniqueSlotName?.map((itm) => {
                 return (
                   <div
