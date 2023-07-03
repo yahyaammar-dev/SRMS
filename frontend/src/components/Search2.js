@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
-const Search = () => {
+const Search2 = () => {
   const [subItem, setSubItem] = useState();
   const [user, setUser] = useState();
   const [subItemOpen, setSubItemOpen] = useState([]);
@@ -22,7 +22,6 @@ const Search = () => {
   const [year, setYear] = useState(2023);
   const [tempResult, setTempResult] = useState();
   const [filteredPolsPods, setFilteredPolsPods] = useState();
-  const [combinedData, setCombinedData] = useState([])
   const months = [
     { value: "January", label: "January" },
     { value: "February", label: "February" },
@@ -68,12 +67,7 @@ const Search = () => {
     return `${day}.${month}.${year}`;
   }
 
-  const getCombinedData = () => {
-    axios.get('http://localhost:8001/combinedData')
-    .then((res)=>{
-      setCombinedData(res)
-    })
-  }
+ 
 
   const handleSelectChange = (event) => {
     setMonth(event.target.value);
@@ -96,13 +90,13 @@ const Search = () => {
   };
 
   const fetchData = async () => {
-    try {
+ 
       setLoader(true);
       // const response = await axios.get("http://20.236.136.145/getAllData");
-      const response = await axios.get("http://localhost:8000/getAllData");
+      const response = await axios.get("http://localhost:8001/combinedData");
       const sortedData = response?.data?.sort((a, b) => {
-        const priceA = parseInt(a.attribute.LDN_20ft);
-        const priceB = parseInt(b.attribute.LDN_20ft);
+        const priceA = parseInt(a.LDN_20ft);
+        const priceB = parseInt(b.LDN_20ft);
 
         return priceA - priceB;
       });
@@ -145,15 +139,12 @@ const Search = () => {
       setData(sortedData);
       setResult(sortedData);
       setLoader(false);
-    } catch (error) {
-      // //console.error("Error fetching data:", error);
     }
-  };
+
 
   useEffect(() => {
     fetchData();
     getUser();
-    getCombinedData()
   }, []);
 
   //Slot Operator Name unique dynamic list
@@ -161,10 +152,10 @@ const Search = () => {
     const list = [];
     result?.filter((itm) => {
       if (
-        !list?.find((dt) => itm?.service?.slot_op_name === dt) &&
-        itm?.service?.slot_op_name
+        !list?.find((dt) => itm?.slot_op_name === dt) &&
+        itm?.slot_op_name
       ) {
-        list?.push(itm?.service?.slot_op_name);
+        list?.push(itm?.slot_op_name);
       }
     });
 
@@ -207,14 +198,13 @@ const Search = () => {
     setUser(storedUser);
   };
 
-  console.log(combinedData.data)
 
   const handleSearch = () => {
     setLoader(true);
     const customdata = tempResult;
     const filteredData = customdata.filter((item) => {
       const monthDate2 = getFormattedDate(month);
-      var date = item.attribute.VALIDITY;
+      var date = item.VALIDITY;
       var realmonth = date?.split(".")[1];
       var realmonth2 = monthDate2?.split(".")[1];
       if (item.pol !== from) {
@@ -225,7 +215,7 @@ const Search = () => {
       }
       if (
         new Date(
-          item?.attribute?.EFFECTIVE_DATE?.split(".")[2]
+          item?.EFFECTIVE_DATE?.split(".")[2]
         ).getFullYear() != year
       ) {
         return false;
@@ -416,26 +406,26 @@ const Search = () => {
             if (
               slotTerm.includes(item.Slot_term) &&
               terminal.includes(item?.terminal) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
           } else if (terminal?.length) {
             if (
               terminal.includes(item?.terminal) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
           } else if (slotTerm?.length) {
             if (
               slotTerm.includes(item.Slot_term) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
           } else {
-            if (slotOperatorName.includes(item?.service?.slot_op_name)) {
+            if (slotOperatorName.includes(item?.slot_op_name)) {
               returnValue = true;
             }
           }
@@ -446,14 +436,14 @@ const Search = () => {
             if (
               slotTerm.includes(item.Slot_term) &&
               terminal.includes(item?.terminal) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
           } else if (slotOperatorName?.length) {
             if (
               terminal.includes(item?.terminal) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
@@ -476,14 +466,14 @@ const Search = () => {
             if (
               slotTerm.includes(item.Slot_term) &&
               terminal.includes(item?.terminal) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
           } else if (slotOperatorName?.length) {
             if (
               slotTerm.includes(item.Slot_term) &&
-              slotOperatorName.includes(item?.service?.slot_op_name)
+              slotOperatorName.includes(item?.slot_op_name)
             ) {
               returnValue = true;
             }
@@ -810,7 +800,7 @@ const Search = () => {
             </div>
           ) : (
             data?.slice(count - 10, count).map((item, index) => {
-              const logo = getCompanyLogo(item?.service?.slot_op_name);
+              const logo = getCompanyLogo(item?.slot_op_name);
               return (
                 <>
                   <div className="outerContainer">
@@ -821,13 +811,13 @@ const Search = () => {
                             <img src={logo} className="company-name" />
                           ) : (
                             <span className="non-logo">
-                              {item?.service?.slot_op_name?.charAt(0)}
+                              {item?.slot_op_name?.charAt(0)}
                             </span>
                           )}
                           <h1>
-                            {item?.service?.slot_op_name
-                              ? item?.service?.slot_op_name?.charAt(0) +
-                                item?.service.slot_op_name
+                            {item?.slot_op_name
+                              ? item?.slot_op_name?.charAt(0) +
+                                item?.slot_op_name
                                   ?.slice(1)
                                   .toLowerCase()
                               : "Service Name"}
@@ -861,15 +851,15 @@ const Search = () => {
                           <div className="righter"></div>
                           <div className="validity">
                             <p className="title">Validity: </p>
-                            <p className="date">{item.attribute.VALIDITY}</p>
+                            <p className="date">{item.VALIDITY}</p>
                           </div>
                           <div className="expiry">
                             <p className="title">Expiry:</p>
-                            <p className="date">{item.attribute.datetime}</p>
+                            <p className="date">{item.datetime}</p>
                           </div>
                           <button className="gradBtn">
-                            {Number(item.attribute.LDN_20ft) !== 0
-                              ? Number(item.attribute.LDN_20ft)
+                            {Number(item.LDN_20ft) !== 0
+                              ? Number(item.LDN_20ft)
                               : "Request Amount"}
                           </button>
                           {user?.roles == "Editer" && (
@@ -993,4 +983,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Search2;

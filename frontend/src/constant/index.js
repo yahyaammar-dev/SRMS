@@ -57,4 +57,5 @@ const toOptions = [
     { label: "SHEKOU", value: "SHEKOU" },
     { label: "HAZIRA", value: "HAZIRA" },
     { label: "PIPAVA", value: "PIPAVA" },
+    { label: "SINGAPORE", value: "SINGAPORE" },
 ]

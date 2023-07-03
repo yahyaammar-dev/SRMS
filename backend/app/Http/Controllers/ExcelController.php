@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Attribute;
+use App\Models\combinedData;
 use App\Models\Port;
 use App\Models\Service;
 use App\Models\Shipment;
@@ -41,7 +42,7 @@ class ExcelController extends Controller
             $sheet        = $spreadsheet->getActiveSheet();
             $row_limit    = $sheet->getHighestDataRow();
             $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range(3, 830);
+            $row_range    = range(3, 330);
             $column_range = range('F', $column_limit);
             $startcount = 3;
             $data = array();
@@ -55,31 +56,31 @@ class ExcelController extends Controller
                     'volume_per_teu' => $sheet->getCell('F' . $row)->getValue(),
                     'TS_Or_Direct' => $sheet->getCell('G' . $row)->getValue(),
                     'Slot_Term' => $sheet->getCell('H' . $row)->getValue(),
-                    'LDN_20ft' => $sheet->getCell('I' . $row)->getValue(),
-                    'LDN_40HC' => $sheet->getCell('J' . $row)->getValue(),
-                    'LDN_EWRI_TEU' => $sheet->getCell('K' . $row)->getValue(),
-                    'LDN_BAF_TEU' => $sheet->getCell('L' . $row)->getValue(),
-                    'ECR_PER_TEU' => $sheet->getCell('M' . $row)->getValue(),
-                    'Flexi_Sur_TEU' => $sheet->getCell('N' . $row)->getValue(),
-                    'DG_Sur_20FT' => $sheet->getCell('O' . $row)->getValue(),
-                    'DG_Sur_40FT' => $sheet->getCell('P' . $row)->getValue(),
-                    'DG_CLASS_1_PER_TEU' => $sheet->getCell('Q' . $row)->getValue(),
-                    'REEFER_SUR' => $sheet->getCell('R' . $row)->getValue(),
+                    'LDN_20ft' => $sheet->getCell('J' . $row)->getValue(),
+                    'LDN_40HC' => $sheet->getCell('K' . $row)->getValue(),
+                    'LDN_EWRI_TEU' => $sheet->getCell('L' . $row)->getValue(),
+                    'LDN_BAF_TEU' => $sheet->getCell('M' . $row)->getValue(),
+                    'ECR_PER_TEU' => $sheet->getCell('N' . $row)->getValue(),
+                    'Flexi_Sur_TEU' => $sheet->getCell('O' . $row)->getValue(),
+                    'DG_Sur_20FT' => $sheet->getCell('P' . $row)->getValue(),
+                    'DG_Sur_40FT' => $sheet->getCell('Q' . $row)->getValue(),
+                    'DG_CLASS_1_PER_TEU' => $sheet->getCell('R' . $row)->getValue(),
+                    'REEFER_SUR' => $sheet->getCell('S' . $row)->getValue(),
                     // 'DTHC_NON_HAZ_20FT' => $sheet->getCell('S' . $row)->getValue(),
                     // 'DTHC_NON_HAZ_40FT' => $sheet->getCell('T' . $row)->getValue(),
                     // 'DTHC_HAZ_20FT' => $sheet->getCell('U' . $row)->getValue(),
-                    'TANK_SCHARGE_TUE' => $sheet->getCell('W' . $row)->getValue(),
+                    'TANK_SCHARGE_TUE' => $sheet->getCell('X' . $row)->getValue(),
                     // 'GRI_TUE' => $sheet->getCell('X' . $row)->getValue(),
                     // 'ROB_FEE_TUE' => $sheet->getCell('U' . $row)->getValue(),
-                    'MT_20ft' => $sheet->getCell('Z' . $row)->getValue(),
-                    'MT_40HC' => $sheet->getCell('AA' . $row)->getValue(),
-                    'MT_EWRI_TEU' => $sheet->getCell('AB' . $row)->getValue(),
-                    'MT_BAF_TEU' => $sheet->getCell('AB' . $row)->getValue(),
-                    'TRANSIT_TIME' => $sheet->getCell('AD'. $row)->getValue(),
+                    'MT_20ft' => $sheet->getCell('AA' . $row)->getValue(),
+                    'MT_40HC' => $sheet->getCell('AB' . $row)->getValue(),
+                    'MT_EWRI_TEU' => $sheet->getCell('AC' . $row)->getValue(),
+                    'MT_BAF_TEU' => $sheet->getCell('AD' . $row)->getValue(),
+                    'TRANSIT_TIME' => $sheet->getCell('AF' . $row)->getValue(),
                     // 'MT_TANK_SCHARGE' => $sheet->getCell('AD' . $row)->getValue(),
-                    'EFFECTIVE_DATE' => $sheet->getCell('AE' . $row)->getValue(),
-                    'VALIDTY' => $sheet->getCell('AF' . $row)->getValue(),
-                    'REMARKS' => $sheet->getCell('AG' . $row)->getValue(),
+                    'EFFECTIVE_DATE' => $sheet->getCell('AK' . $row)->getValue(),
+                    'VALIDTY' => $sheet->getCell('AN' . $row)->getValue(),
+                    'REMARKS' => $sheet->getCell('AM' . $row)->getValue(),
                 ];
                 $startcount++;
             }
@@ -166,19 +167,6 @@ class ExcelController extends Controller
                     'attribute_id' => $attribute->id,
                     'transit_time' => $item['TRANSIT_TIME']
                 ]);
-
-
-
-                // extra
-                $port = Port::create([
-                    'name' => $item['pol'],
-                    'identifier' => $service->id,
-                ]);
-                $slotDetail = SlotDetail::create([
-                    'attribute_id' => $service->id,
-                    'value' => $service->id,
-                    'shipment_id' => $service->id,
-                ]);
             }
             return;
         } catch (Exception $e) {
@@ -228,6 +216,90 @@ class ExcelController extends Controller
             );
         }
         $this->ExportExcel($data_array);
+    }
+
+    public function getAllDataCombined(){
+        $combinedData = combinedData::all();
+        return response()->json($combinedData);
+    }
+
+    public function populateData()
+    {
+        $combinedData = DB::table('attributes')
+            ->join('shipments', 'attributes.id', '=', 'shipments.attribute_id')
+            ->join('service', 'shipments.service_id', '=', 'service.id')
+            ->select(
+                'attributes.LDN_20ft',
+                'attributes.LDN_40HC',
+                'attributes.LDN_EWRI_TEU',
+                'attributes.LDN_BAF_TEU',
+                'attributes.ECR_PER_TEU',
+                'attributes.Flexi_Sur_TEU',
+                'attributes.DG_Sur_20FT',
+                'attributes.DG_Sur_40FT',
+                'attributes.DG_CLASS_1_PER_TEU',
+                'attributes.REEFER_SUR',
+                'attributes.TANK_S_CHARGE_TUE',
+                'attributes.MT_20ft',
+                'attributes.MT_40HC',
+                'attributes.MT_EWRI_TEU',
+                'attributes.MT_BAF_TEU',
+                'attributes.EFFECTIVE_DATE',
+                'attributes.VALIDITY',
+                'attributes.REMARKS',
+                'attributes.datetime',
+                'service.slot_op_name',
+                'service.service_name',
+                'service.identifier',
+                'shipments.port_id',
+                'shipments.pod',
+                'shipments.pol',
+                'shipments.terminal',
+                'shipments.volume_per_teu',
+                'shipments.T_S_or_diect',
+                'shipments.Slot_term',
+                'shipments.service_id',
+                'shipments.attribute_id',
+                'shipments.transit_time'
+            )
+            ->get();
+
+        // Inserting into the combined_table
+        foreach ($combinedData as $item) {
+            DB::table('combined_table')->insert([
+                'LDN_20ft' => $item->LDN_20ft,
+                'LDN_40HC' => $item->LDN_40HC,
+                'LDN_EWRI_TEU' => $item->LDN_EWRI_TEU,
+                'LDN_BAF_TEU' => $item->LDN_BAF_TEU,
+                'ECR_PER_TEU' => $item->ECR_PER_TEU,
+                'Flexi_Sur_TEU' => $item->Flexi_Sur_TEU,
+                'DG_Sur_20FT' => $item->DG_Sur_20FT,
+                'DG_Sur_40FT' => $item->DG_Sur_40FT,
+                'DG_CLASS_1_PER_TEU' => $item->DG_CLASS_1_PER_TEU,
+                'REEFER_SUR' => $item->REEFER_SUR,
+                'TANK_S_CHARGE_TUE' => $item->TANK_S_CHARGE_TUE,
+                'MT_20ft' => $item->MT_20ft,
+                'MT_40HC' => $item->MT_40HC,
+                'MT_EWRI_TEU' => $item->MT_EWRI_TEU,
+                'MT_BAF_TEU' => $item->MT_BAF_TEU,
+                'EFFECTIVE_DATE' => $item->EFFECTIVE_DATE,
+                'VALIDITY' => $item->VALIDITY,
+                'REMARKS' => $item->REMARKS,
+                'datetime' => $item->datetime,
+                'slot_op_name' => $item->slot_op_name,
+                'service_name' => $item->service_name,
+                'identifier' => $item->identifier,
+                'port_id' => $item->port_id,
+                'pod' => $item->pod,
+                'pol' => $item->pol,
+                'terminal' => $item->terminal,
+                'volume_per_teu' => $item->volume_per_teu,
+                'T_S_or_diect' => $item->T_S_or_diect,
+                'Slot_term' => $item->Slot_term,
+               
+                'transit_time' => $item->transit_time
+            ]);
+        }
     }
 
 
@@ -353,7 +425,8 @@ class ExcelController extends Controller
     }
 
 
-    public function editData(Request $req) {
+    public function editData(Request $req)
+    {
         $shipment = Shipment::find($req->id);
         if (!$shipment) {
             return response()->json(['message' => 'Shipment not found'], 404);

@@ -32,6 +32,12 @@ Route::post('/deleteData', [ExcelController::class, 'deleteData']);
 Route::get('/getSingleItemData/{id}', [ExcelController::class, 'getSingleItemData']);
 Route::post('/editData', [ExcelController::class, 'editData']);
 
+Route::get('/getSingleItemData/{id}', [ExcelController::class, 'getSingleItemData']);
+
+Route::get('/populateData', [ExcelController::class, 'populateData']);
+
+Route::get('/combinedData', [ExcelController::class, 'getAllDataCombined']);
+
 Route::get('/welcome', function() {
     return response()->json([
         'message' => 'welcome man'
