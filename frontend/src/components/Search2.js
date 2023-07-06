@@ -13,8 +13,8 @@ const Search2 = () => {
   const [loader, setLoader] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
-  const [from, setFrom] = useState("JEBEL ALI");
-  const [to, setTo] = useState("BANDAR ABBAS");
+  const [from, setFrom] = useState("Select POD");
+  const [to, setTo] = useState("Select POL");
   const navigate = useNavigate();
   const [slotTerm, setSlotTerm] = useState([]);
   const [month, setMonth] = useState("June");
@@ -36,17 +36,11 @@ const Search2 = () => {
     February: "02",
     March: "03",
     April: "04",
-    March: "04",
     May: "05",
     June: "06",
   };
 
   const years = [
-    { value: "2018", label: "2018" },
-    { value: "2019", label: "2019" },
-    { value: "2020", label: "2020" },
-    { value: "2021", label: "2021" },
-    { value: "2022", label: "2022" },
     { value: "2023", label: "2023" },
   ];
 
@@ -66,8 +60,6 @@ const Search2 = () => {
     const day = "01"; // Assuming the day is not relevant in this case
     return `${day}.${month}.${year}`;
   }
-
- 
 
   const handleSelectChange = (event) => {
     setMonth(event.target.value);
@@ -147,6 +139,7 @@ const Search2 = () => {
     getUser();
   }, []);
 
+
   //Slot Operator Name unique dynamic list
   const uniqueSlotOpertors = useMemo(() => {
     const list = [];
@@ -221,6 +214,7 @@ const Search2 = () => {
         return false;
       }
       const monthDate = getFormattedDate(month);
+      console.log(realmonth, realmonth2)
       if (realmonth !== realmonth2) {
         return false;
       }
@@ -252,6 +246,7 @@ const Search2 = () => {
   };
 
   const handleRadioChange2 = (event) => {
+    console.log(slotOperatorName, event.target.value)
     if (slotOperatorName.includes(event.target.value)) {
       let result = slotOperatorName.filter((itm) => itm !== event.target.value);
       setSlotOperatorName(result);
@@ -531,7 +526,7 @@ const Search2 = () => {
           src="/logo.png"
           className="logo mainlogo"
           onClick={() => {
-            fetchData();
+            window.location.reload()
           }}
         />
         <div>
@@ -550,7 +545,7 @@ const Search2 = () => {
               <button
                 className="mybtn"
                 onClick={() => {
-                  fetchData();
+                  window.location.reload()
                 }}
               >
                 Reset Filters
@@ -612,6 +607,7 @@ const Search2 = () => {
               value={{ value: from, label: from }}
               options={filteredPolsPods}
               onChange={handleSelectChange2}
+              placeholder="Enter the POD"
             />
           </div>
           <div class="my-div sixth maindiv"></div>
@@ -660,6 +656,7 @@ const Search2 = () => {
             <h1 className="innerFilterh1">Slot Operator Name</h1>
             <div className="filters--content">
               {uniqueSlotOpertors?.map((itm) => {
+              
                 return (
                   <div
                     className="item"
@@ -799,6 +796,7 @@ const Search2 = () => {
               </div>
             </div>
           ) : (
+            data.length > 0 ?  
             data?.slice(count - 10, count).map((item, index) => {
               const logo = getCompanyLogo(item?.slot_op_name);
               return (
@@ -948,6 +946,10 @@ const Search2 = () => {
                 </>
               );
             })
+            :
+            <>
+              <img src='/nodata.jpg' style={{margin: "auto", width: "60%" }} />
+            </>
           )}
 
           {!loader && data?.length > 10 && (
@@ -962,7 +964,7 @@ const Search2 = () => {
               </button>
 
               <p>
-                {count / 10} / {(data.length / 10).toFixed()}{" "}
+                {count / 10} / {Number((data.length / 10).toFixed())+Number(1)}{" "}
               </p>
 
               <button

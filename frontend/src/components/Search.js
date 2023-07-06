@@ -99,7 +99,7 @@ const Search = () => {
     try {
       setLoader(true);
       // const response = await axios.get("http://20.236.136.145:53001/getAllData");
-      const response = await axios.get("http://localhost:8000/getAllData");
+      const response = await axios.get("http://20.236.136.145:53001/getAllData");
       const sortedData = response?.data?.sort((a, b) => {
         const priceA = parseInt(a.attribute.LDN_20ft);
         const priceB = parseInt(b.attribute.LDN_20ft);

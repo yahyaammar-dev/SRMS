@@ -507,3 +507,10 @@
 }
 }
 
+@media screen and (min-width: 1200px) and (max-width: 1380px) {
+  .innerSearchBar .ten {
+    width: 10%;
+    display: flex;
+    min-width: 10%;
+  }
+}
